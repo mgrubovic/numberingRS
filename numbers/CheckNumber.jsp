@@ -13,6 +13,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-16">
 <link rel="stylesheet" href="../css/style_main.css"/>
 
+<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../js/selectTableView.js"></script>
 <!-- script type="text/javascript" src="../js/numberInput.js"></script	-->
 
 <title>Numbering</title>
@@ -55,40 +57,7 @@
 					%>
 							
 							<!--option value="" >ALL</option-->
-							<!-- option class="ndc-geo" value="10" >10</option>
-							<option class="ndc-geo" value="11" >11</option>
-							<option class="ndc-geo" value="12" >12</option>
-							<option class="ndc-geo" value="13" >13</option>
-							<option class="ndc-geo" value="14" >14</option>
-							<option class="ndc-geo" value="15" >15</option>
-							<option class="ndc-geo" value="16" >16</option>
-							<option class="ndc-geo" value="17" >17</option>
-							<option class="ndc-geo" value="18" >18</option>
-							<option class="ndc-geo" value="19" >19</option>
-							<option class="ndc-geo" value="20" >20</option>
-							<option class="ndc-geo" value="21" >21</option>
-							<option class="ndc-geo" value="22" >22</option>
-							<option class="ndc-geo" value="23" >23</option>
-							<option class="ndc-geo" value="230" >230</option>
-							<option class="ndc-geo" value="24" >24</option>
-							<option class="ndc-geo" value="25" >25</option>
-							<option class="ndc-geo" value="26" >26</option>
-							<option class="ndc-geo" value="27" >27</option>
-							<option class="ndc-geo" value="28" >28</option>
-							<option class="ndc-geo" value="280" >280</option>
-							<option class="ndc-geo" value="29" >29</option>
-							<option class="ndc-geo" value="290" >290</option>
-							<option class="ndc-geo" value="30" >30</option>
-							<option class="ndc-geo" value="31" >31</option>
-							<option class="ndc-geo" value="32" >32</option>
-							<option class="ndc-geo" value="33" >33</option>
-							<option class="ndc-geo" value="34" >34</option>
-							<option class="ndc-geo" value="35" >35</option>
-							<option class="ndc-geo" value="36" >36</option>
-							<option class="ndc-geo" value="37" >37</option>
-							<option class="ndc-geo" value="38" >38</option>
-							<option class="ndc-geo" value="39" >39</option>
-							-->
+	
 				</select>
 			</td></tr>
 			<tr><td>Subscriber number: </td><td><input type="text" name="newSubscriber" /></td></tr>
@@ -193,8 +162,37 @@
 	<!-- NumberingRanges.xml is actually a RangeXmlDownload.jsp  mapped in web.xml -->	
 	<p><a href="../data/NumberingRanges.xml">Table in xml format</a><p>
 	
-	<table class="tbl-official" >
+	<form action=""  name="tableForm" >
+	<div id="divTable">
+	<table border="1px" bgcolor="#c5c5c5" id="rangeTableView">
 		<tr><td>Index</td><td>Area code</td><td>Start of range</td><td>End of range</td><td>Operator</td></tr>
+			<tr>
+			<td/>
+			<td>
+				<select  name="selectAreaTable" >
+					<option class='ndc-geo' value='ALL'>ALL</option>
+				<%
+
+					for(AreaCodeJaxb codeItem :jaxbList.areaCodeJaxb){
+						out.print("<option class='ndc-geo' value='" + codeItem.getCode() +"'>" 
+											+ codeItem.getCode() +"</option>");
+					}		
+				%>
+					
+				</select>
+			</td>
+			<td><input type="text" name="selectStartRange" maxLength="3" size="3" /></td>
+			<td></td>
+			<td>
+			<select  name="operatorTable" >
+					<option class='oTable' value='ts'>ALL</option>
+					<!-- 
+					<option class='oTable' value='ts'>Telekom Srbija a.d., Beograd</option> <
+					 -->
+				</select>
+			</td>
+			</tr>
+		
 		<%
 			for(int i=0; i<rangesMain.size(); i++){
 			Range firstRange = rangesMain.get(i);
@@ -202,12 +200,19 @@
 			<!-- 	This is option when program logic decides witch color row of table will be 
 					tr bgcolor="<%-- =firstRange.getColorCell() --%>"
 			-->
-			<tr><td><%=i+1%></td><td><%=firstRange.mg%></td>
-			<td><%=firstRange.startRange %></td><td><%=firstRange.endRange %></td><td><%= firstRange.operator %></td></tr>
+			<tr class="tableRow">
+			<td><%=i+1%></td>
+			<td><%=firstRange.mg%></td>
+			<td><%=firstRange.startRange %></td>
+			<td><%=firstRange.endRange %></td>
+			<td><%= firstRange.operator %></td>
+			</tr>
 		<%
 			}
 		%>
 	</table>
+	</div>
+	</form>
 		<script type="text/javascript">
 		
 		var vButton = document.form1.button1;
