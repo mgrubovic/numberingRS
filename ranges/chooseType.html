@@ -2,59 +2,78 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="../css/style_main.css"/>
+<link rel="stylesheet" href="../css/style_main.css" />
 <title>Insert title here</title>
 </head>
 <body>
-<div class="header">
-  <h1>Telephone numbers in Serbia</h1>
-</div>
+	<div class="header">
+		<h1>Telephone numbers in Serbia</h1>
+	</div>
 
-<div style="overflow:auto">
-  <div class="menu">
-    <div class="menuitem"><a href="../index.html">About</a></div>
-    <div class="menuitem"><a href="../numbers/findInGeo.jsp">Find numbers</a></div>
-    <div class="menuitem"><a href="#">Find ranges</a></div>
-    <div class="menuitem"><a href="../indexOld.html">Old index</a></div>
-    <div class="menuitem"><a href="../configuration/mainConfig.html">Configuration</a></div>
-  </div>
+	<div style="overflow: auto">
+		<div class="menu">
+			<div class="menuitem">
+				<a href="../index.html">About</a>
+			</div>
+			<div class="menuitem">
+				<a href="../numbers/findInGeo.jsp">Find numbers</a>
+			</div>
+			<div class="menuitem">
+				<a href="#">Find ranges</a>
+			</div>
+			<div class="menuitem">
+				<a href="../indexOld.html">Old index</a>
+			</div>
+			<div class="menuitem">
+				<a href="../configuration/mainConfig.html">Configuration</a>
+			</div>
+		</div>
 
-  <div class="main">
-    <h2>Ranges</h2>
- 
-    	<p>Welcome to the page which deals with telephone numbers and ranges. You can do following things <p>
-	<ul>
-		<li>Check status of numbering ranges</li>
-		<li>Find out where the telephone number belongs </li>
-		<li>Compare relations between tables</li>
-	</ul>
-	<form action="GetFromSite.jsp" method="post">
-		<table>
-		<tr>
-		<td><input type="radio" name="type" value="geo"/>Geografska numeracija</td>
-		<td><input type="text" name="geoPage" size="100" value="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=1000&filter=&operator=&net=&broj=&format=csv" /></td>
-		</tr><tr>
-		<td><input type="radio" name="type" value="notGeo"/>Negeografska numeracija</td>
-		<td><input type="text" name="notGeoPage" size="100" value="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=2200&filter=&operator=&net=&broj=&format=csv" /></td>
-		</tr><tr>
-		<td><input type="radio" name="type" value="short" />Kratki kodovi</td>
-		<td><input type="text" name="shortPage" size="100" value="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=2100&filter=&operator=&net=&broj=&format=csv" /></td>
-		</tr>
-		</table>
-		<input type="submit" name="openTable" value="Open" />
-	</form>
+		<div class="main">
+			<h2>Ranges</h2>
 
-  </div>
-  
+			<p>Welcome to the page which deals with telephone numbers and
+				ranges. You can do following things
+			<p>
+			<ul>
+				<li>Check status of numbering ranges</li>
+				<li>Find out where the telephone number belongs</li>
+				<li>Compare relations between tables</li>
+			</ul>
+			<form action="GetFromSite.jsp" method="post">
+				<table>
+					<tr>
+						<td><input type="radio" name="type" value="geo" />Geografska
+							numeracija</td>
+						<td><input type="text" name="geoPage" size="100"
+							value="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=1000&filter=&operator=&net=&broj=&format=csv" /></td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="type" value="notGeo" />Negeografska
+							numeracija</td>
+						<td><input type="text" name="notGeoPage" size="100"
+							value="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=2200&filter=&operator=&net=&broj=&format=csv" /></td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="type" value="short" />Kratki
+							kodovi</td>
+						<td><input type="text" name="shortPage" size="100"
+							value="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=2100&filter=&operator=&net=&broj=&format=csv" /></td>
+					</tr>
+				</table>
+				<input type="submit" name="openTable" value="Open" />
+			</form>
 
-</div>
+		</div>
 
-<div class="footer">2017
-</p>mgrubovic@yahoo.com</p>
-</div>
+
+	</div>
+
+	<div class="footer">
+		2017
+		<p>mgrubovic@yahoo.com</p>
+	</div>
 
 </body>
 
-</html>
-</body>
 </html>

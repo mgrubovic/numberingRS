@@ -1,40 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    
-<%@ page import="rs.numbering.format.*" %>
+	pageEncoding="ISO-8859-1"%>
+
+<%@ page import="rs.numbering.format.*"%>
 <%@ page import="rs.numbering.source.*, rs.numbering.operation.*"%>
 
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="../css/style_main.css"/>
+<link rel="stylesheet" href="../css/style_main.css" />
 <title>Numbering</title>
 </head>
 <body>
-<div class="header">
-  <h1>Telephone numbers in Serbia</h1>
-</div>
-<div style="overflow:auto">
- <div class="menu">
-    <div class="menuitem"><a href="../index.html">About</a></div>
-    <div class="menuitem"><a href="../numbers/CheckNumber.jsp">Find numbers</a></div>
-    <div class="menuitem"><a href="CheckRange.jsp">Find ranges</a></div>
-    <div class="menuitem"><a href="../compare.html">Compare</a></div>
-    <div class="menuitem"><a href="../configuration/mainConfig.html">Configuration</a></div>
- </div>
- <div class="main-right">
+	<div class="header">
+		<h1>Telephone numbers in Serbia</h1>
+	</div>
+	<div style="overflow: auto">
+		<div class="menu">
+			<div class="menuitem">
+				<a href="../index.html">About</a>
+			</div>
+			<div class="menuitem">
+				<a href="../numbers/CheckNumber.jsp">Find numbers</a>
+			</div>
+			<div class="menuitem">
+				<a href="CheckRange.jsp">Find ranges</a>
+			</div>
+			<div class="menuitem">
+				<a href="../compare.html">Compare</a>
+			</div>
+			<div class="menuitem">
+				<a href="../summary/SummaryHib.jsp">Summary</a>
+			</div>
+			<div class="menuitem">
+				<a href="../configuration/mainConfig.html">Configuration</a>
+			</div>
+		</div>
+		<div class="main-right">
 
-	<p>
-		Network  <%=request.getParameter("mg") %>
-		<br/>
-		Start of range <%=request.getParameter("startRange") %>
-		<br/>
-		End of range <%= request.getParameter("endRange") %>
-	</p>
-	<%
+			<p>
+				Network
+				<%=request.getParameter("mg") %>
+				<br /> Start of range
+				<%=request.getParameter("startRange") %>
+				<br /> End of range
+				<%= request.getParameter("endRange") %>
+			</p>
+			<%
 		Range rangeInput = new Range();
 		String mgRequest= request.getParameter("mg");
 		String startRangeRequest = request.getParameter("startRange");
@@ -76,7 +90,7 @@
 		}
 		
 		List <Range> rangesAll = (List <Range>)application.getAttribute("geoRange");	
-		System.out.println("Input number " + rangeInput.mg + " " + rangeInput.startRange + " " + rangeInput.endRange);
+		//System.out.println("Input number " + rangeInput.mg + " " + rangeInput.startRange + " " + rangeInput.endRange);
 		if(goodRequest){
 			List <Range> list1 = new ArrayList<>();
 			list1.add(rangeInput);
@@ -118,13 +132,16 @@
 			out.println("<p>You put invalid value try again</p><br/>");
 		}
 	%>
-</div><!-- end of class="main-right" -->	
-</div><!-- end of style="overflow:auto" -->
+		</div>
+		<!-- end of class="main-right" -->
+	</div>
+	<!-- end of style="overflow:auto" -->
 
-	
-<div class="footer">2017
-</p>mgrubovic@yahoo.com</p>
-</div>			
-	
+
+	<div class="footer">
+		2017
+		<p>mgrubovic@yahoo.com</p>
+	</div>
+
 </body>
 </html>
