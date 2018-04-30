@@ -31,6 +31,7 @@ public class FileRangeReader implements SourceReader{
 		if(bigReader != null){
 			try{
 				String line = bigReader.readLine();
+				
 				while(line != null){
 					fromatReader.processRangeEntry(line, listRanges);
 					line = bigReader.readLine();
@@ -131,9 +132,8 @@ public class FileRangeReader implements SourceReader{
 	public BufferedReader openFile(String file){
 		BufferedReader reader = null;
 		try {
-			
-			reader = new BufferedReader(new FileReader(file));
-			//new InputStreamReader( new FileInputStream(file), "UTF-8")
+			//reader = new BufferedReader(new FileReader(new File(file)));
+			reader = new BufferedReader(new InputStreamReader( new FileInputStream(file), "Cp1252"));//, "UTF-8"
 		} catch (FileNotFoundException e) {
 			System.out.println("file name is " + file);
 			e.printStackTrace();

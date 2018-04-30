@@ -1,5 +1,5 @@
 /**
- *  OCP Java SE 7 Programmer II Certification Guide
+ *  
  */
 package rs.numbering.format;
 
@@ -8,6 +8,7 @@ package rs.numbering.format;
  *
  */
  public class Range {
+	 
 	public int id;
 	public String mg;
 	public String startRange;
@@ -34,6 +35,95 @@ package rs.numbering.format;
 		decisionDate = oldRange.decisionDate;
 		
 	}
+	 
+	@Override
+	public String toString() {
+		return "Range [mg=" + mg + ", startRange=" + startRange + ", endRange=" + endRange + ", operator=" + operator + "]";
+				//+ ", fromDate=" + fromDate + ", untilDate=" + untilDate + ", decisionNumber=" + decisionNumber
+				//+ ", decisionDate=" + decisionDate + "]";
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getMg() {
+		return mg;
+	}
+
+	public void setMg(String mg) {
+		this.mg = mg;
+	}
+
+	public String getStartRange() {
+		return startRange;
+	}
+
+	public void setStartRange(String startRange) {
+		this.startRange = startRange;
+	}
+
+	public int getBlockCount() {
+		return blockCount;
+	}
+
+	public void setBlockCount(int blockCount) {
+		this.blockCount = blockCount;
+	}
+
+	public String getEndRange() {
+		return endRange;
+	}
+
+	public void setEndRange(String endRange) {
+		this.endRange = endRange;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getUntilDate() {
+		return untilDate;
+	}
+
+	public void setUntilDate(String untilDate) {
+		this.untilDate = untilDate;
+	}
+
+	public String getDecisionNumber() {
+		return decisionNumber;
+	}
+
+	public void setDecisionNumber(String decisionNumber) {
+		this.decisionNumber = decisionNumber;
+	}
+
+	public String getDecisionDate() {
+		return decisionDate;
+	}
+
+	public void setDecisionDate(String decisionDate) {
+		this.decisionDate = decisionDate;
+	}
+
+
 	
 	public String getColorCell() {
 		return colorCell;

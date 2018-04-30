@@ -20,7 +20,7 @@ public class ReadRangeDB implements ReadRange {
 			range.fromDate = data[6];
 			range.untilDate = data[7];
 			range.decisionNumber = data[8];
-			range.operator = data[14];
+			range.operator = data[13];
 
 			ranges.add(range);
 		}catch(NumberFormatException ex){

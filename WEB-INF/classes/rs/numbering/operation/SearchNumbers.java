@@ -35,7 +35,7 @@ public class SearchNumbers {
 
 				}
 			}//for(Range inRanges: unutrašnja petlja koja prolazi kroz veliku tabelu dodeljenih brojeva
-			System.out.println( outputLine);
+			//System.out.println( outputLine);
 			outputString.append(outputLine);
 		}
 		return outputString;

@@ -2,20 +2,30 @@ package rs.numbering.model;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import rs.numbering.format.*;
+import rs.numbering.hibernate.OperationHibRange;
 import rs.numbering.source.SourceReader;
-
+/**
+ * Depending on parameters xxxPlace and xxxFromat class makes rangesMain
+ * @author milosav.grubovic
+ *
+ */
 public class DataManager {
+	//thih attributes are set by main application it chooses source of data 
 	private String firstPlace;
-
 	private String secondPlace;
+	
+	//thih attributes are set by main application it chooses format of the Range
 	private String firstFormat;
 	private String secondFormat;
 
 
 	public String urlDescription="";
 	public List <Range> rangesMain;
+	//public List <Range> rangesHsql;
+
 	
 	public void getRanges(){
 
@@ -27,6 +37,7 @@ public class DataManager {
 		SourceReader sourceReader = factoryReader.getSourceReader();
 		rangesMain = sourceReader.takeData(firstPlace, fromatReader);
 		System.out.println("reading web from DataManager" ); 
+		
 
 		if(rangesMain.size()>0){
 			 urlDescription = "Table data taken from web address: " + firstPlace;
@@ -50,6 +61,31 @@ public class DataManager {
 			System.out.println("reading file from DataManager" ); 
 
 		}
+
+		intitHsql();
+	}
+	
+	public void intitHsql(){
+		OperationHibRange operateHib = new OperationHibRange();
+		operateHib.factoryHsql = operateHib.getFactory("hibernate-hsqldb.cfg.xml");
+		
+		if(OperationHibRange.sumMap == null || OperationHibRange.sumMap.size() == 0){
+				operateHib.populateTable(rangesMain);
+				OperationHibRange.sumMap = operateHib.numberSummary();
+				System.out.println("Populate tabele");
+		}
+		
+/*		for testing purpose
+ * 
+ * 		operateHib.listRanges();
+		operateHib.geoSummary();
+		
+		for(String mgMap : OperationHibRange.sumMap.keySet()){
+			System.out.println("Area code " + mgMap + "there is "+ OperationHibRange.sumMap.get(mgMap));
+		}
+		
+		//System.out.println("init Hsql" ); 
+*/
 
 	}
 	

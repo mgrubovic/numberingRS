@@ -1,3 +1,6 @@
+/**
+ 
+ */
 package rs.numbering.jaxb;
 
 import java.io.*;
@@ -14,11 +17,13 @@ import javax.xml.bind.Unmarshaller;
 import rs.numbering.format.Range;
 
 
+
+/**
+ * @author milosav.grubovic
+ *
+ */
 public class OperationJaxb {
 	
-	public static void main(String [] args){
-		
-	}
 
 	 public static void rangeToXml(RangeJaxb rangeJaxb) {
 
@@ -51,7 +56,7 @@ public class OperationJaxb {
 	         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	         jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-16" );
          
-	         File writeRange = new File("C:\\Rad\\data\\RangesList.xml");
+	         File writeRange = new File("RangesList.xml");
 	         
 	         //!!! this was the problem of strange behavior of xml file
 	         //FileWriter fileWriteRange = new FileWriter(writeRange);
@@ -62,6 +67,127 @@ public class OperationJaxb {
 			   System.out.println(" " + ex.toString());
 			   ex.printStackTrace();
 		   }
+	 }	
+	 
+	 public static void xmlToListRange() {
+	       try {
+	           File file = new File ("RangesList.xml");//C:\Rad\eclipse\numberingRS
+	           JAXBContext jaxbContext = JAXBContext.newInstance(ListRangeJaxb.class);
+	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-16"); doesn't work with this
+	           ListRangeJaxb report =(ListRangeJaxb)jaxbUnmarshaller.unmarshal(file);
+
+/*	            another way to read the xml file
+	            InputStream inputStream = new FileInputStream("RangesList.xml");
+	            Reader reader = new InputStreamReader(inputStream, "UTF-16");
+	            ListRangeJaxb report =(ListRangeJaxb)jaxbUnmarshaller.unmarshal(reader);
+*/
+	            
+	            System.out.println(report);
+	        } catch (JAXBException ex) {
+	        	//System.out.println(ex.toString());
+	        	//ex.printStackTrace();
+	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
+	        } 
+ /*
+  * 		this is in the case of using another way with InputStream
+	       	catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/			
+	 }
+
+	 public static void xmlToAreaCode() {
+	       try {
+	           File file = new File ("C:\\Rad\\data\\MreznaGrupaSingl.xml");
+	           JAXBContext jaxbContext = JAXBContext.newInstance(AreaCodeJaxb.class);
+	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8"); //doesn't work with this
+	           FileReader fr = new FileReader(file);
+	           AreaCodeJaxb report =(AreaCodeJaxb)jaxbUnmarshaller.unmarshal(fr);
+
+	            //another way to read the xml file
+/*	            InputStream inputStream = new FileInputStream(file);
+	            Reader reader = new InputStreamReader(inputStream, "UTF-8");
+	            AreaCodeJaxb report =(AreaCodeJaxb)jaxbUnmarshaller.unmarshal(reader);
+*/
+	            
+	            System.out.println(report.getCode() +
+	            		" cyr is " + report.getCityCyr() +
+	            		" lat is " + report.getCityLat());
+	        } catch (JAXBException ex) {
+	        	//System.out.println(ex.toString());
+	        	//ex.printStackTrace();
+	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
+	        } 
+
+ 		//this is in the case of using another way with InputStream
+	       	catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+/*	       catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/			
+			
+	 }
+	 
+	 public static void xmlToListAreaCode() {
+	       try {
+	           File file = new File ("C:\\Rad\\data\\MreznaGrupa.xml");
+	           JAXBContext jaxbContext = JAXBContext.newInstance(ListAreaCodeJaxb.class);
+	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-16"); doesn't work with this
+	           ListAreaCodeJaxb report =(ListAreaCodeJaxb)jaxbUnmarshaller.unmarshal(file);
+
+/*	            another way to read the xml file
+	            InputStream inputStream = new FileInputStream("RangesList.xml");
+	            Reader reader = new InputStreamReader(inputStream, "UTF-16");
+	            ListRangeJaxb report =(ListRangeJaxb)jaxbUnmarshaller.unmarshal(reader);
+*/
+	            
+	            System.out.println(report);
+	        } catch (JAXBException ex) {
+	        	//System.out.println(ex.toString());
+	        	//ex.printStackTrace();
+	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
+	        } 
+/*
+* 		this is in the case of using another way with InputStream
+	       	catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/			
+	 }
+
+	 public static ListAreaCodeJaxb xmlToListAreaCode(String filePath) {
+		 ListAreaCodeJaxb report = null;
+	     try {
+	           File file = new File (filePath);
+	           //File file = new File ("C:\\Rad\\data\\MreznaGrupa.xml");
+	           JAXBContext jaxbContext = JAXBContext.newInstance(ListAreaCodeJaxb.class);
+	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-16"); doesn't work with this
+	           report =(ListAreaCodeJaxb)jaxbUnmarshaller.unmarshal(file);
+	            
+	            //System.out.println(report);
+	            
+	     }catch (JAXBException ex) {
+	        	//System.out.println(ex.toString());
+	        	//ex.printStackTrace();
+	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
+	     }
+	     return report; 
 	 }
 	 
 	 public static void listRangeToXml(List <Range> rangesMain, File writeRange) {
@@ -90,67 +216,4 @@ public class OperationJaxb {
 			   ex.printStackTrace();
 		   }
 	 }
-	 
-	 public static void xmlToListRange() {
-	       try {
-	           File file = new File ("RangesList.xml");//C:\Rad\eclipse\numberingRS
-	           JAXBContext jaxbContext = JAXBContext.newInstance(ListRangeJaxb.class);
-	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-16"); doesn't work with this
-	           ListRangeJaxb report =(ListRangeJaxb)jaxbUnmarshaller.unmarshal(file);
-
-	            //System.out.println(report);
-	        } catch (JAXBException ex) {
-	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
-	        } 
- 		
-	 }
-
-	 public static void xmlToAreaCode() {
-	       try {
-	           File file = new File ("C:\\Rad\\data\\MreznaGrupaSingl.xml");
-	           JAXBContext jaxbContext = JAXBContext.newInstance(AreaCodeJaxb.class);
-	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8"); //doesn't work with this
-	           FileReader fr = new FileReader(file);
-	           AreaCodeJaxb report =(AreaCodeJaxb)jaxbUnmarshaller.unmarshal(fr);
-            
-/*	            System.out.println(report.getCode() +
-	            		" cyr is " + report.getCityCyr() +
-	            		" lat is " + report.getCityLat());
-*/
-	           } catch (JAXBException ex) {
-	        	//System.out.println(ex.toString());
-	        	//ex.printStackTrace();
-	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
-	        } 
-	       	catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-	 }
-	 
-	 public static ListAreaCodeJaxb xmlToListAreaCode(String filePath) {
-		 ListAreaCodeJaxb report = null;
-	     try {
-	           File file = new File (filePath);
-	           //File file = new File ("C:\\Rad\\data\\MreznaGrupa.xml");
-	           JAXBContext jaxbContext = JAXBContext.newInstance(ListAreaCodeJaxb.class);
-	           Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-	           //jaxbUnmarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-16"); doesn't work with this
-	           report =(ListAreaCodeJaxb)jaxbUnmarshaller.unmarshal(file);
-
-	            
-	            System.out.println(report);
-	           
-	            
-	     }catch (JAXBException ex) {
-	        	//System.out.println(ex.toString());
-	        	//ex.printStackTrace();
-	           Logger.getLogger(OperationJaxb.class.getName()).log(Level.SEVERE, null, ex);
-	     }
-	     return report; 
-
-	 }
-
-	
 }

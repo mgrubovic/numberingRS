@@ -1,6 +1,7 @@
 package rs.numbering.model;
 
 import rs.numbering.format.ReadRange;
+import rs.numbering.format.ReadRangeDB;
 import rs.numbering.format.ReadRangeFileCsvGeo;
 import rs.numbering.format.ReadRangeWebCsvGeo;
 import rs.numbering.format.ReadRangeWebCsvNotGeo;
@@ -29,6 +30,10 @@ public class ReadRangeFactory {
 			setFormatReader(new ReadRangeDBfull());
 		}
 */		
+		else if(fileFormat.equals("dbShort")){
+			System.out.println("Method is " + "dbShort");
+			setFormatReader(new ReadRangeDB());
+		}
 		else if(fileFormat.equals("shortForm")){
 			System.out.println("Method is " + "shortForm");
 			setFormatReader(new ReadRangeWrite());
@@ -47,7 +52,10 @@ public class ReadRangeFactory {
 			System.out.println("Source is " + "web");
 			setSourceReader(new WebReader());
 		}
-		
+		else if(fileFormat.equals("dbShort")){
+			System.out.println("Method is " + "dbShort");
+			setSourceReader(new FileRangeReader());
+		}
 	}
 
 	public ReadRange getFormatReader() {
