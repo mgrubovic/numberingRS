@@ -1,41 +1,55 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    
-<%@ page import="rs.numbering.format.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%@ page import="rs.numbering.format.*"%>
 <%@ page import="rs.numbering.source.*, rs.numbering.operation.*"%>
-<%@ page import="java.util.*" %>
+<%@ page import="java.util.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="../css/style_main.css"/>
+<link rel="stylesheet" href="../css/style_main.css" />
 
 
-<meta http-equiv="Content-Type" content="text/html; charset=Unicode">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-16">
 <title>Numbering</title>
 </head>
 <body>
-<div class="header">
-  <h1>Telephone numbers in Serbia</h1>
-</div>
+	<div class="header">
+		<h1>Telephone numbers in Serbia</h1>
+	</div>
 
-<div style="overflow:auto">
- <div class="menu">
-    <div class="menuitem"><a href="../index.html">About</a></div>
-    <div class="menuitem"><a href="CheckNumber.jsp">Find numbers</a></div>
-    <div class="menuitem"><a href="../ranges/CheckRange.jsp">Find ranges</a></div>
-    <div class="menuitem"><a href="../compare.html">Compare</a></div>
-    <div class="menuitem"><a href="../configuration/mainConfig.html">Configuration</a></div>
- </div>
- <div class="main-right">
-	<p>
-		Net is <%=request.getParameter("net") %>
-		<br/>
-		Subscriber number is <%=request.getParameter("newSubscriber") %>
-		<br/>
-		Hidden <%= request.getParameter("numbersToSend") %>
-	</p>
-	<%
+	<div style="overflow: auto">
+		<div class="menu">
+			<div class="menuitem">
+				<a href="../index.html">About</a>
+			</div>
+			<div class="menuitem">
+				<a href="CheckNumber.jsp">Find numbers</a>
+			</div>
+			<div class="menuitem">
+				<a href="../ranges/CheckRange.jsp">Find ranges</a>
+			</div>
+			<div class="menuitem">
+				<a href="../compare.html">Compare</a>
+			</div>
+			<div class="menuitem">
+				<a href="../summary/SummaryHib.jsp">Summary</a>
+			</div>
+			<div class="menuitem">
+				<a href="../configuration/mainConfig.html">Configuration</a>
+			</div>
+		</div>
+		<div class="main-right">
+			<p>
+				Net is
+				<%=request.getParameter("net") %>
+				<br /> Subscriber number is
+				<%=request.getParameter("newSubscriber") %>
+				<br /> Hidden
+				<%= request.getParameter("numbersToSend") %>
+			</p>
+			<%
 		List <Range> lookForList = new ArrayList<>();
 	
 		String hiddenString = request.getParameter("numbersToSend");
@@ -81,7 +95,7 @@
 		
 
 	%>
-	<%
+			<%
 		Range range1 = new Range();
 		String netRequest= request.getParameter("net");
 		String subscriberRequest = request.getParameter("newSubscriber");
@@ -147,12 +161,15 @@
 		}
 
 	%>
-</div><!-- end of class="main-right" -->	
-</div><!-- end of style="overflow:auto" -->
+		</div>
+		<!-- end of class="main-right" -->
+	</div>
+	<!-- end of style="overflow:auto" -->
 
-<div class="footer">2017
-</p>mgrubovic@yahoo.com</p>
-</div>		
-	
+	<div class="footer">
+		2017
+		<p>mgrubovic@yahoo.com</p>
+	</div>
+
 </body>
 </html>
