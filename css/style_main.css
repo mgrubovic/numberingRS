@@ -1,14 +1,16 @@
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
-body{
-	margin:0 auto;/* page will be in the center of the screen*/
-    width:960px;
-    font-family:Verdana;
-    color:#aaaaaa;
+
+body {
+	margin: 0 auto; /* page will be in the center of the screen*/
+	width: 960px;
+	font-family: Verdana;
+	color: #aaaaaa;
 }
-a{
-	color:darkblue;
+
+a {
+	color: darkblue;
 	text-decoration: none;
 }
 
@@ -19,63 +21,70 @@ a{
 a:hover{
 	  background-color:#e5e5e5 ;
 */
-
-#errInput{
-	color:red;
+#errInput {
+	color: red;
 }
 
-.header{
-	background-color:darkblue; /*#151515;*/
-    padding:15px;
-    text-align:center;
+.header {
+	background-color: darkblue; /*#151515;*/
+	padding: 15px;
+	text-align: center;
 }
+
 .menu {
-  float:left;
-  width:20%;
-  text-align:center;
+	float: left;
+	width: 20%;
+	text-align: center;
 }
+
 .menuitem {
-  background-color:lightblue /*#e5e5e5 */;
-  padding:8px;
-  margin-top:7px;
+	background-color: lightblue /*#e5e5e5 */;
+	padding: 8px;
+	margin-top: 7px;
 }
+
 .main {
-  float:left;
-  width:60%;
-  padding:0 20px;
+	float: left;
+	width: 60%;
+	padding: 0 20px;
 }
+
 .main-right {
-  float:left;
-  width:80%;
-  padding:0 20px;
+	float: left;
+	width: 80%;
+	padding: 0 20px;
 }
-.col3{
-	background-color:powderblue;
-	float:left;
-	width:33%;
+
+.col3 {
+	background-color: powderblue;
+	float: left;
+	width: 33%;
 	border: 1px solid;
-	padding:20px;
+	padding: 20px;
 }
-.col2{
-	background-color:lightgrey;
-	float:left;
-	width:50%;
+
+.col2 {
+	background-color: lightgrey;
+	float: left;
+	width: 50%;
 	/* border: 1px solid; */
-	padding:20px;
+	padding: 20px;
 }
+
 .right {
-  background-color:#e5e5e5;
-  float:left;
-  width:20%;
-  padding:15px;
-  margin-top:7px;
-  text-align:center;
+	background-color: #e5e5e5;
+	float: left;
+	width: 20%;
+	padding: 15px;
+	margin-top: 7px;
+	text-align: center;
 }
-.footer{
-	background-color:#151515;
-    text-align:center;
-    padding:10px;
-    margin-top:10px;
+
+.footer {
+	background-color: #151515;
+	text-align: center;
+	padding: 10px;
+	margin-top: 10px;
 }
 /*
 table.tbl-official{
@@ -84,15 +93,21 @@ table.tbl-official{
 	border:solid  black 1px;
 }
 */
-table{
-	color:black;
+table {
+	color: black;
 }
+
 tr:nth-child(even) {
-background-color: #ffffff;}
+	background-color: #ffffff;
+}
+
 tr:nth-child(odd) {
-background-color: #efefef;}
+	background-color: #efefef;
+}
+
 tr:hover {
-background-color: #c3e6e5;}
+	background-color: #c3e6e5;
+}
 /*
 .tbl-official td {
 	color:black;
@@ -106,8 +121,8 @@ background-color: #c3e6e5;}
 }
 */
 @media only screen and (max-width:620px) {
-  /* For mobile phones: */
-  .menu, .main, .right {
-    width:100%;
-  }
+	/* For mobile phones: */
+	.menu, .main, .right {
+		width: 100%;
+	}
 }
