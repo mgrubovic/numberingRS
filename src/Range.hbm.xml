@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="rs.numbering.format.Range" table="numbering_example">
+		<meta attribute="class-description">
+			This class contains the Ranges detail.
+		</meta>
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+		<property name="mg" column="mg" type="string" />
+		<property name="startRange" column="start_range" type="string" />
+		<property name="endRange" column="end_range" type="string" />
+
+		<property name="fromDate" column="from_date" type="string" />
+		<property name="blockCount" column="block_count" type="int" />
+		<property name="untilDate" column="until_date" type="string" />
+		<property name="decisionNumber" column="decision_number"
+			type="string" />
+		<property name="decisionDate" column="decision_date" type="string" />
+		<property name="operator" column="operator_name" type="string" />
+
+
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>numberingRS</display-name>
+
+
+	<context-param>
+		<param-name>url-geo</param-name>
+		<param-value>http://registar.ratel.rs/cyr/reg202?action=table&amp;vrsta=1000&amp;filter=&amp;operator=&amp;net=&amp;broj=&amp;format=csv</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>file-geo</param-name>
+		<param-value>Geo20180207.csv</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>file-geo-short</param-name>
+		<param-value>Geo20180207short.csv</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>rs.numbering.model.DataModelServlet</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>xmlFile</servlet-name>
+		<jsp-file>/data/RangeXmlDownload.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>xmlFile</servlet-name>
+		<url-pattern>/data/NumberingRanges.xml</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>number</servlet-name>
+		<jsp-file>/numbers/CheckNumber.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>number</servlet-name>
+		<url-pattern>/numbers/number</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
