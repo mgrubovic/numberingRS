@@ -5,12 +5,13 @@ This application uses data from the RATEL Database of assigned telephone numberi
 
 This site can help you to:
 
-    Find out does the (geographic) subscriber number is assigned and if it is, who is assignee (operator).
-    Check out availability of geographic numbering range(block)
-    See the distribution of phone numbers in relation to the area code
+    Find out does the (geographic) subscriber number is assigned and if it is, who is assignee (operator);
+    Check out availability of geographic numbering range(block);
+    See the distribution of phone numbers in relation to the area code;
 
 
 TECHNOLOGY
+
 The application logic is written in Java, JSP and Servlet technology.
 
 JavaScript is used for checking input values and to make group request for number checking.
