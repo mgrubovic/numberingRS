@@ -17,47 +17,28 @@
 
 	<div style="overflow: auto">
 		<jsp:include page="/moduls/Menu.jsp"></jsp:include>
-		<!-- 
-		<div class="menu">
-			<div class="menuitem">
-				<a href="../index.html">About</a>
-			</div>
-			<div class="menuitem">
-				<a href="../numbers/CheckNumber.jsp">Find numbers</a>
-			</div>
-			<div class="menuitem">
-				<a href="../ranges/CheckRange.jsp">Find ranges</a>
-			</div>
-			<div class="menuitem">
-				<a href="../compare.html">Compare</a>
-			</div>
-			<div class="menuitem">
-				<a href="../summary/SummaryHib.jsp">Summary</a>
-			</div>
-			<div class="menuitem">
-				<a href="#">Configuration</a>
-			</div>
-		</div>
-		-->
+
 		<div class="main">
 			<h2>Configuration</h2>
 
-			<p>This application uses Java and JSP for application logic.
+			<p>The application logic is written in <strong>Java</strong>, <strong>JSP</strong> and <strong>Servlet</strong> technology.
 			</p>
-			<p>JavaScript is for checking input values.
+			<p><strong>JavaScript</strong> is used for checking input values and to make group request for number checking.
+				<br/>
+				Also, <strong>JavaScript</strong> is used to adjust table view by area code, by start of range or by teleco operator.
 			</p>
-			<p>JAXB for reading and writing XML
+			<p>JAXB is used for reading and writing XML
 			</p>
-			<p>The first choice is to retrieve the data from RATEL site dedicated
-				to assigned telephone ranges (blocks):<br />
-				http://registar.ratel.rs/cyr/reg202?action=table&vrsta=1000&filter=&operator=&net=&broj=&format=csv
+			<p>The first choice is to retrieve the data from RATEL Database of numbering resource use
+				<br/>
+				${applicationScope.dataSource}
 			</p>
 			<p>If an attempt to retrieve data from site fails, application
-				will try second choice and take data from file in /data folder</p>
+				will try the second choice and take data from file in /data folder</p>
 			<p>Source for retrieving data, URL address and file name are
 				configurable in web.xml file
 			</p>				
-			<p>Summary page is made using Hibernate and HSQLDB
+			<p>Summary page is made using the Hibernate and the HSQLDB
 			</p>
 
 

@@ -20,19 +20,7 @@
 				}
 
 			});
-/*			
-			$("form[name=tableForm]").change( function(){
-				
-				var areaTable = $(":input[name=areaTable]").val();
-				var operatorTable = $(":input[name=operatorTable]").val();
-				//alert('change');
-				$("#errInput").append("change" + operatorTable + " " + areaTable);
-				var atr = "<%=jspHi%>";
-				alert(atr);
-				
 
-			});
-*/			
 			function isNumber(num, position){
 				var errorString="Range is good";
 				var result = true;

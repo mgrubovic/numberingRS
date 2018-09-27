@@ -11,16 +11,15 @@ import javax.servlet.annotation.WebListener;
 import rs.numbering.format.Range;
 import rs.numbering.jaxb.ListAreaCodeJaxb;
 import rs.numbering.jaxb.OperationJaxb;
-import rs.numbering.operation.SearchNumbers;
-import rs.numbering.operation.SearchRanges;
 
 /**
- * Application Lifecycle Listener implementation class DataModelServlet
+ * Application 
  *
  */
 @WebListener
 public class DataModelServlet implements ServletContextListener {
 
+	public static List <Range> rangesMain;
     /**
      * Default constructor. 
      */
@@ -40,7 +39,7 @@ public class DataModelServlet implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent event)  { 
 		
-    	List <Range> rangesMain;
+    	
 		ServletContext sContext = event.getServletContext();
 		
 		String firstPlace = sContext.getInitParameter("url-geo");
@@ -67,8 +66,8 @@ public class DataModelServlet implements ServletContextListener {
 		sContext.setAttribute("geoRange", rangesMain);
 		sContext.setAttribute("dataSource", dataManager.urlDescription);
 		
-		SearchRanges.rangesBig= rangesMain;
-		SearchNumbers.rangesBig = rangesMain;
+		//SearchRanges.rangesBig= rangesMain;
+		//SearchNumbers.rangesBig = rangesMain;
 		
 		
 		// list of area codes for SELECT element in forms

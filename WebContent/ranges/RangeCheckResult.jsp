@@ -22,103 +22,43 @@
 	
 		<div class="main-right">
 
-			<p>
-				Network
-				<%=request.getParameter("mg") %>
-				<br /> Start of range
-				<%=request.getParameter("startRange") %>
-				<br /> End of range
-				<%= request.getParameter("endRange") %>
-			</p>
+
 			<%
-		Range rangeInput = new Range();
-		String mgRequest= request.getParameter("mg");
-		String startRangeRequest = request.getParameter("startRange");
-		String endRangeRequest = request.getParameter("endRange");
-		boolean goodRequest = true;
-		
-		if(rangeInput.isTelNumber(mgRequest)){
-			rangeInput.mg= mgRequest;
-		}else{
-			goodRequest=false;
-			out.println("<p>You put invalid value for net "+ mgRequest + " </p>");
+				String mgRequest= request.getParameter("mg");
+				String startRangeRequest = request.getParameter("startRange");
+				String endRangeRequest = request.getParameter("endRange");
 
-		}
+			%>
+			<p> Checking availability of the request
+				<br/>
+				Area code <%=mgRequest %>
+				<br/>
+				Start of range <%=startRangeRequest %>
+				<br/>
+				End of range <%=endRangeRequest %>
+			</p>
+			<%	
+				boolean goodRequest = true;
+				SearchRanges searchRanges = new SearchRanges();
+				goodRequest = searchRanges.isRequestGood(mgRequest, startRangeRequest, endRangeRequest);
+				
+				if(goodRequest){
+					List <Range> list1 = new ArrayList<>();
+					list1.add(searchRanges.rangeInput);
+					searchRanges.compareRanges(list1);
+					
+					for(String line:searchRanges.answerLines){
+						out.println("<p>");
+						out.println(line);
+						out.println("</p>");
+					}
 		
-		if(rangeInput.isTelNumber(startRangeRequest)){
-			if(rangeInput.isLengthGood(startRangeRequest, 5, 7)){
-				rangeInput.startRange = startRangeRequest;
-			}else{
-				out.println("<p>Start range length is invalid, it should be between 5 and 7 digits   "+ startRangeRequest + "</p>");
-				goodRequest=false;
-
-			}			
-		}else{
-			goodRequest=false;
-			out.println("<p>You put invalid value for start range  "+ startRangeRequest + "</p>");
-		}
+					
+				}else{
+					out.println("<p>You put invalid value try again</p><br/>");
+				}
+			%>
 		
-		if(rangeInput.isTelNumber(endRangeRequest)){
-			if(rangeInput.isLengthGood(endRangeRequest, 5, 7)){
-				rangeInput.endRange = endRangeRequest;
-			}else{
-				out.println("<p>End range length is invalid, it should be between 5 and 7 digits   "+ endRangeRequest + "</p>");
-				goodRequest=false;
-
-			}			
-		}else{
-			goodRequest=false;
-			out.println("<p>You put invalid value for end range  "+ endRangeRequest + "</p>");
-		}
-		
-		List <Range> rangesAll = (List <Range>)application.getAttribute("geoRange");	
-		//System.out.println("Input number " + rangeInput.mg + " " + rangeInput.startRange + " " + rangeInput.endRange);
-		if(goodRequest){
-			List <Range> list1 = new ArrayList<>();
-			list1.add(rangeInput);
-//			System.out.println("list 1 " + list1);
-/*
-			if( rangesAll==null){
-		
-				String url ="http://registar.ratel.rs/cyr/reg202?action=table&vrsta=1000&filter=&operator=&net=&broj=&format=csv";
-		
-				WebReader webReader = new WebReader();
-		
-				String fileFormat="webCsvGeo";
-		
-				ReadRangeFactory factoryReader =  new ReadRangeFactory(fileFormat);
-				ReadRange fromatReader = factoryReader.getFormatReader();
-				webReader.takeData(url, fromatReader);
-				rangesAll= webReader.listRanges;	
-				application.setAttribute("geoRange", rangesAll);
-			}
-			SearchRanges.rangesBig = rangesAll;
-*/			
-			SearchRanges searchRanges = new SearchRanges();
-			
-/*			MyNumber myNumber = new MyNumber();
-			System.out.println("MyNumber class " + myNumber.appendEnd);
-*/
-			StringBuilder sb = searchRanges.compareRanges(SearchRanges.rangesBig, list1);
-			
-			int start = 0;
-			int end = sb.indexOf(searchRanges.appendEnd);
-			while(end != -1){
-				String row = sb.substring(start, end);
-				out.println("<br/>");
-				out.println(row);
-				start = end +4;
-				end = sb.indexOf(searchRanges.appendEnd, start);
-			}
-			List <String> resultList = searchRanges.rangesAvilable(SearchRanges.rangesBig, list1);
-			for(String resultLine: resultList){
-				out.println("<br/>");
-				out.println(resultLine);
-			}
-		}else{
-			out.println("<p>You put invalid value try again</p><br/>");
-		}
-	%>
 		</div>
 		<!-- end of class="main-right" -->
 	</div>

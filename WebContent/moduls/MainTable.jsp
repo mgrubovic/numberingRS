@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<script type="text/javascript" src="../js/selectTableView.js"></script>
+
 <form action="" name="tableForm">
 	<div id="divTable">
 		<table border="1px" bgcolor="#c5c5c5" id="rangeTableView">
@@ -35,14 +37,14 @@
 
 				 
 				<c:forEach var="firstRange" items="${applicationScope.geoRange}" varStatus="rangeCount">
-				<tr class="tableRow">
+					<tr class="tableRow">
 								<td>${rangeCount.count}</td>
 								<td>${firstRange.mg}</td>
 								<td>${firstRange.startRange}</td>
 								<td>${firstRange.endRange}</td>
 								<td>${firstRange.operator}</td>
 				
-				</tr>
+					</tr>
 				</c:forEach>
 
 			</table>

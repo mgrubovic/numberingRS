@@ -28,7 +28,7 @@
     <servlet-name>xmlFile</servlet-name>
     <url-pattern>/data/NumberingRanges.xml</url-pattern>
   </servlet-mapping>
-
+ 
   <servlet>
     <servlet-name>number</servlet-name>
     <jsp-file>/numbers/CheckNumber.jsp</jsp-file>

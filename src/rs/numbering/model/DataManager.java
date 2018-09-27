@@ -2,11 +2,9 @@ package rs.numbering.model;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import rs.numbering.format.*;
 import rs.numbering.hibernate.OperationHibRange;
-import rs.numbering.operation.SearchNumbers;
 import rs.numbering.operation.SearchRanges;
 import rs.numbering.source.SourceReader;
 /**
@@ -42,7 +40,7 @@ public class DataManager {
 		
 
 		if(rangesMain.size()>0){
-			 urlDescription = "Table data taken from web address: " + firstPlace;
+			 urlDescription = "Table data are taken from web address: " + firstPlace;
 		}else{ //if range is not initialized from web page we are going to read data from data file on the server 
 			//String jspPath = application.getRealPath("/");
 			//url = jspPath + "data" + File.separator +  "Geo20180207.csv";
@@ -64,7 +62,7 @@ public class DataManager {
 
 		}
 		SearchRanges.rangesBig= rangesMain;
-		SearchNumbers.rangesBig =rangesMain;
+		//SearchNumbers.rangesBig =rangesMain;
 
 		intitHsql();
 	}
