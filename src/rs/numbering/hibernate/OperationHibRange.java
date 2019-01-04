@@ -7,7 +7,6 @@ import java.util.*;
 
 import org.hibernate.*;
 import org.hibernate.cfg.*;
-import org.hibernate.criterion.*;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
@@ -19,7 +18,9 @@ import rs.numbering.format.Range;
  */
 public class OperationHibRange {
 	public SessionFactory factoryHsql;
-	public static Map<String, Long> sumMap;
+	public static Map<String, Long> sumMap;	
+	public static Map<String, Long> operatorMap;
+
 
 	
 	/**
@@ -35,6 +36,17 @@ public class OperationHibRange {
 	public OperationHibRange() {
 	}
 
+	public void intitHsql(List <Range> rangesMain){
+		factoryHsql = getFactory("hibernate-hsqldb.cfg.xml");
+		
+		if(OperationHibRange.sumMap == null || OperationHibRange.sumMap.size() == 0){
+				populateTable(rangesMain);
+				OperationHibRange.sumMap = numberSummary();
+				OperationHibRange.operatorMap = operatorSummary();
+				//System.out.println("Populate tabele-in Hib class");
+		}
+	}
+	
 	public SessionFactory getFactory(String dbConfig){
 		SessionFactory factory;	
 		try{
@@ -74,6 +86,10 @@ public class OperationHibRange {
 			re.setMg(mg);
 			re.setStartRange(startRange);
 			re.setEndRange(endRange);
+			
+			int amount = Integer.parseInt(endRange) - Integer.parseInt(startRange) + 1;
+			re.setAmountRange(amount);
+			
 			re.setOperator(operator);
 			rangeId = (Integer)session.save(re);
 			tx.commit();
@@ -189,16 +205,40 @@ public class OperationHibRange {
 		return mgAmount;
 	}
 	
+	public Map<String, Long> operatorSummary(){
+		Map<String, Long> mgAmount = new TreeMap<>();
+		Session session = factoryHsql.openSession();
+		Transaction tx = null;
+		String queryGropuByOperator = "SELECT SUM(R.amountRange), R.operator FROM Range R "
+				+ " GROUP BY R.operator ORDER BY SUM(R.amountRange) DESC";
+		
+		try{
+			tx = session.beginTransaction();
+			Query query = session.createQuery(queryGropuByOperator);
+
+			@SuppressWarnings("unchecked")
+			List <Object[]> resultOperator = query.list();
+			for(Object [] result: resultOperator){
+				System.out.println("Operator "+ result[1] + " has " + result[0] + " numbers.");
+				mgAmount.put(result[1]+"", Long.parseLong(result[0]+""));
+			}
+			tx.commit();
+		}catch(HibernateException e){
+			if(tx != null) tx.rollback();
+			e.printStackTrace();
+		}finally{
+			session.close();
+		}
+
+		return mgAmount;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void clearTable(){
 		Session session = factoryHsql.openSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
-/*			Criteria cr = session.createCriteria(RangeEntity.class);
-			cr.add(Restrictions.like("startRange", "3%"));
-			List <RangeEntity> ranges = cr.list();
-*/
 			List <Range> ranges = (List<Range>) session.createQuery("FROM Range").list();
 
 			for(Range re: ranges){

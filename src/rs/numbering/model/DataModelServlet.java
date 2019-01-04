@@ -9,8 +9,11 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import rs.numbering.format.Range;
+import rs.numbering.format.ReadRange;
+import rs.numbering.hibernate.OperationHibRange;
 import rs.numbering.jaxb.ListAreaCodeJaxb;
 import rs.numbering.jaxb.OperationJaxb;
+import rs.numbering.source.SourceReader;
 
 /**
  * Application 
@@ -20,56 +23,49 @@ import rs.numbering.jaxb.OperationJaxb;
 public class DataModelServlet implements ServletContextListener {
 
 	public static List <Range> rangesMain;
+	String jspPath = ""; 
+	String urlDescription = "";
+	
     /**
      * Default constructor. 
      */
     public DataModelServlet() {
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-     * @see ServletContextListener#contextDestroyed(ServletContextEvent)
-     */
+
     public void contextDestroyed(ServletContextEvent arg0)  { 
-         // TODO Auto-generated method stub
     }
-
-	/**
-     * @see ServletContextListener#contextInitialized(ServletContextEvent)
-     */
-    public void contextInitialized(ServletContextEvent event)  { 
+    
+	public void contextInitialized(ServletContextEvent event)  { 
 		
-    	
+		
 		ServletContext sContext = event.getServletContext();
+		jspPath = sContext.getRealPath("/data");
 		
 		String firstPlace = sContext.getInitParameter("url-geo");
 		String firstFormat = "webCsvGeo";
+		urlDescription = "Table data are taken from web address: " + firstPlace;
+		rangesMain = getRanges( firstFormat, firstPlace);
 		
-		String jspPath = sContext.getRealPath("/data"); 
-		String fileName = sContext.getInitParameter("file-geo-short");
-
-		String secondPlace = jspPath + File.separator +  fileName;
-		String secondFormat = "fileCsvGeo";
-
-		System.out.println("ServletContextListener " + sContext.getInitParameter("url-geo"));
-		DataManager dataManager = new DataManager();
+		// if app is not able to read from the web then it reads from a backup file
+		if(rangesMain.isEmpty()){
+			String fileName = sContext.getInitParameter("file-geo-short");
+			String secondPlace = jspPath + File.separator +  fileName;
+			String secondFormat = "fileCsvGeo";
+			urlDescription = "Table data are taken from backup file: " + fileName;
+			rangesMain = getRanges( secondFormat, secondPlace);
+		}
 		
-		dataManager.setFirstPlace(firstPlace);		
-		dataManager.setFirstFormat(firstFormat);
-		
-		dataManager.setSecondPlace(secondPlace);
-		dataManager.setSecondFormat(secondFormat);
-		
-		dataManager.getRanges();
-		rangesMain = dataManager.rangesMain;
-		
+	
 		sContext.setAttribute("geoRange", rangesMain);
-		sContext.setAttribute("dataSource", dataManager.urlDescription);
-		
-		//SearchRanges.rangesBig= rangesMain;
-		//SearchNumbers.rangesBig = rangesMain;
-		
-		
+		sContext.setAttribute("dataSource", urlDescription);
+
+		//Initialize HSQL database and preparing summary views
+		OperationHibRange operateHib = new OperationHibRange();
+		operateHib.intitHsql(rangesMain);		
+		sContext.setAttribute("operateHib", OperationHibRange.sumMap);
+		sContext.setAttribute("operatorMap", OperationHibRange.operatorMap);
+	
 		// list of area codes for SELECT element in forms
 		ListAreaCodeJaxb jaxbList = null;
 		String fileXmlAreaCodes = jspPath + File.separator +  "AreaCodes.xml";
@@ -80,7 +76,18 @@ public class DataModelServlet implements ServletContextListener {
 		String fileXmlName = "RangesList.xml";
 		String fileXmlPlace = jspPath + File.separator +  fileXmlName;
 		File writeRange = new File(fileXmlPlace);
-		sContext.setAttribute("xmlDataFile", writeRange);
 		OperationJaxb.listRangeToXml(rangesMain, writeRange);
-    }
+		sContext.setAttribute("xmlDataFile", writeRange);
+
+	}
+
+
+	public List <Range> getRanges(String format, String place){
+
+		ReadRangeFactory factoryReader =  new ReadRangeFactory(format);
+		ReadRange fromatReader = factoryReader.getFormatReader();
+		SourceReader sourceReader = factoryReader.getSourceReader();
+		List <Range> forRangesMain = sourceReader.takeData(place, fromatReader);
+		return forRangesMain;
+	}
 }

@@ -5,21 +5,17 @@
     <param-name>url-geo</param-name>
     <param-value>http://registar.ratel.rs/cyr/reg202?action=table&amp;vrsta=1000&amp;filter=&amp;operator=&amp;net=&amp;broj=&amp;format=csv</param-value>
   </context-param>
-  
   <context-param>
     <param-name>file-geo</param-name>
     <param-value>Geo20180207.csv</param-value>
   </context-param>
-  
   <context-param>
     <param-name>file-geo-short</param-name>
     <param-value>Geo20180207short.csv</param-value>
   </context-param>
-  
   <listener>
     <listener-class>rs.numbering.model.DataModelServlet</listener-class>
   </listener>
-  
   <servlet>
     <servlet-name>xmlFile</servlet-name>
     <jsp-file>/data/RangeXmlDownload.jsp</jsp-file>
@@ -28,7 +24,16 @@
     <servlet-name>xmlFile</servlet-name>
     <url-pattern>/data/NumberingRanges.xml</url-pattern>
   </servlet-mapping>
- 
+  
+    <servlet>
+    <servlet-name>NumberChecking</servlet-name>
+    <servlet-class>rs.numbering.control.ControllerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NumberChecking</servlet-name>
+    <url-pattern>/check</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>number</servlet-name>
     <jsp-file>/numbers/CheckNumber.jsp</jsp-file>
@@ -37,16 +42,14 @@
     <servlet-name>number</servlet-name>
     <url-pattern>/numbers/number</url-pattern>
   </servlet-mapping>
-  
-  <servlet>
+  <!-- servlet>
     <servlet-name>numberServlet</servlet-name>
     <servlet-class>rs.numbering.operation.CheckNumberServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>numberServlet</servlet-name>
-    <url-pattern>/CheckNumberServletBack</url-pattern>
-  </servlet-mapping >
-  
+    <url-pattern>/CheckNumberServletBack</url-pattern >
+  </servlet-mapping -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -25,29 +26,23 @@
 	</div>
 	<div style="overflow: auto">
 		<jsp:include page="/moduls/Menu.jsp"></jsp:include>
-			<div class="main-right">
+		<div class="main-right">
 			<h3>You can check existence of the range</h3>
 			
-			<p>On this site you can check out if the numbering range exists	or it is free for assignment</p>
+			<p> On this site you can check out if the numbering range exists	or it is free for assignment</p>
 				
-			<!-- form action="../CheckNumberServletBack" method="post" -->
-			<form action="RangeCheckResult.jsp" method="post">
-				<p>
-					Area code:
-					<select name="mg">
-				<%
-					String jspPath = application.getRealPath("/data");
-					String fileXmlAreaCodes = jspPath + File.separator +  "AreaCodes.xml";
-					ListAreaCodeJaxb jaxbList = OperationJaxb.xmlToListAreaCode(fileXmlAreaCodes);
-
-					for(AreaCodeJaxb codeItem :jaxbList.areaCodeJaxb){
-						out.print("<option class='ndc-geo' value='" + codeItem.getCode() +"'>" 
-											+ codeItem.getCode() +"</option>");
-					}		
-				%>
-
-					</select> start range: <input type="text" name="startRange" /> end range: <input
-						type="text" name="endRange" />
+			<!-- form action="RangeCheckResult.jsp"
+			 action="../CheckNumberServletBack" method="post" -->
+			<form action="../check" method="post">
+				<input type="hidden" name="select" value="range">
+				<p>Select area code:
+						
+				<select name="mg">
+					<c:forEach var="codeItem" items="${applicationScope.areaCode.areaCodeJaxb}">
+						<option class="ndc-geo" value="${codeItem.code}">${codeItem.code}</option>
+					</c:forEach>
+				</select>
+				start range: <input type="text" name="startRange" /> end range: <input type="text" name="endRange" />
 				</p>
 
 				<div id="errInput"></div>
@@ -58,17 +53,12 @@
 			</form>
 	
 
-			<p>
-				<%=application.getAttribute("dataSource")%>
-			</p>
+			<p>${applicationScope.dataSource}</p>
 			
 			<jsp:include page="/moduls/MainTable.jsp"></jsp:include>
 
-	</div>
-		<!-- end of class="main-right" -->
-	</div>
-	<!-- end of style="overflow:auto" -->
-
+		</div>	<!-- end of class="main-right" -->
+	</div>	<!-- end of style="overflow:auto" -->
 
 	<div class="footer">
 		2017

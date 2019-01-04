@@ -12,8 +12,9 @@ package rs.numbering.format;
 	public int id;
 	public String mg;
 	public String startRange;
-	public int blockCount;
 	public String endRange;
+	public int blockCount;
+	public int amountRange;
 	public String operator;
 	public String fromDate;
 	public String untilDate;
@@ -33,6 +34,7 @@ package rs.numbering.format;
 		untilDate = oldRange.untilDate;
 		decisionNumber = oldRange.decisionNumber;
 		decisionDate = oldRange.decisionDate;
+		amountRange = oldRange.amountRange;
 		
 	}
 	 
@@ -81,6 +83,14 @@ package rs.numbering.format;
 
 	public void setEndRange(String endRange) {
 		this.endRange = endRange;
+	}
+
+	public int getAmountRange() {
+		return amountRange;
+	}
+
+	public void setAmountRange(int amountRange) {
+		this.amountRange = amountRange;
 	}
 
 	public String getOperator() {

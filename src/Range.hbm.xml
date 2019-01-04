@@ -13,6 +13,7 @@
 		<property name="mg" column="mg" type="string" />
 		<property name="startRange" column="start_range" type="string" />
 		<property name="endRange" column="end_range" type="string" />
+		<property name="amountRange" column="amount_range" type="int" />
 
 		<property name="fromDate" column="from_date" type="string" />
 		<property name="blockCount" column="block_count" type="int" />

@@ -37,6 +37,7 @@ public class AreaCodeJaxb {
 	public String getCityLat() {
 		return cityLat;
 	}
+
 	@XmlElement( name="City_lat")
 	public void setCityLat(String cityLat) {
 		this.cityLat = cityLat;

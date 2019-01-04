@@ -36,7 +36,9 @@
 				
 			</p>
 
-			<form name="form1" id="formGroup" action="NumberCheckResult.jsp" method="post">
+			<form name="form1" id="formGroup" action="../check" method="post">
+				<input type="hidden" name="select" value="number">
+			
 				<table>
 					<tr>
 						<td>Area code:</td>
