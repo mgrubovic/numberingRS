@@ -12,10 +12,10 @@ This site can help you to:
 
 TECHNOLOGY
 
-The application logic is written in Java, JSP and Servlet technology.
+The application logic is written in Java, JSP and Servlet technology, using MVC pattern.
 
 JavaScript is used for checking input values and to make group request for number checking.
-Also, JavaScript is used to adjust table view by area code, by start of range or by teleco operator.
+Also, JavaScript is used to adjust table view by area code, by start of range or by telco operator.
 
 JAXB is used for reading and writing XML
 
