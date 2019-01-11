@@ -109,38 +109,6 @@
 //		});//end of	$("form[name=tableForm]").change( function(){
 		
 	});		
-			
-			
-/*
-			dataTable.find(".tableRow").each(function(){
-			//$(".tableRow").each(function(){
-			        var currentRow=$(this);
-
-			        var col1_value=currentRow.find("td:eq(0)").text();
-			        var col2_value=currentRow.find("td:eq(1)").text();
-			        var col3_value=currentRow.find("td:eq(2)").text();
-			        
-			        var obj={};
-			        obj.col1=col1_value;
-			        obj.col2=col2_value;
-			        obj.col3=col3_value;
-
-			        arrData.push(obj);
-					
-				
-					if( selectAreaTable == col2_value ){
-						var selectedRow = "<tr class='tableRow'>" +
-								"<td>"+ col1_value + "</td>"+
-								"<td>"+ col2_value + "</td>"+
-								"<td>"+ col3_value + "</td>"+
-								"</tr>";
-				
-								dataTable.append(selectedRow);
-					}else{
-						currentRow.remove();
-					}
-			});// end of loop dataTable.find
-*/ 
-
+		
 
 		

@@ -58,7 +58,6 @@ public class MainApp {
 		rangesSmall.add(test2);
 		
 		SearchRanges schRanges = new SearchRanges();
-		schRanges.findRanges(dm.rangesMain, rangesSmall);
 
 
 	}

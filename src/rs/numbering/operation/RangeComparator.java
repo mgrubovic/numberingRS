@@ -67,7 +67,7 @@ public class RangeComparator implements Comparator<Range> {
 			return compareNumber;
 		}
 	}
-	
+
 /*	public int compareNaturalComplete(Range range1, Range range2) {
 		int compareNumber = range1.mg.compareTo(range2.mg);
 		if(compareNumber==0){

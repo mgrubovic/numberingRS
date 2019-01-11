@@ -15,7 +15,6 @@ import rs.numbering.model.DataModelServlet;
 
 public class SearchRanges {
 	
-	private List <String> resultList; // it is for rangesAvilable(List<Range> rangesBig, List<Range> rangesSmall)
 	public String appendEnd = "+!!+";
 	StringBuilder outputString;
 	public static List<Range> rangesBig;
@@ -28,42 +27,52 @@ public class SearchRanges {
 		answerLines = new ArrayList<String>();
 		rangesBig=DataModelServlet.rangesMain;
 	}
+	
 
-	public boolean isRequestGood(String mgRequest,String startRangeRequest, String endRangeRequest ){
+	public SearchRanges(List<Range> rangesBig) {
+		answerLines = new ArrayList<String>();
+		SearchRanges.rangesBig=rangesBig;
+	}
+	
+	public void getAnswers(String mgRequest,String startRangeRequest, String endRangeRequest){
 		
+		boolean goodRange = true;
+		goodRange = isNumberGood(startRangeRequest, "start");
+		goodRange = isNumberGood(endRangeRequest, "end");
+		
+		if(goodRange){
+			rangeInput = new Range();
+			rangeInput.setMg(mgRequest);
+			rangeInput.setStartRange(startRangeRequest); 
+			rangeInput.setEndRange(endRangeRequest);
+			
+			List <Range> list1 = new ArrayList<>();
+			list1.add(rangeInput);
+			compareRanges(list1);
+			int rangeIndex = binarySearch(rangesBig, rangeInput);
+			prepareAnswers(rangeIndex, rangeInput);
+			}
+	}
+
+	public boolean isNumberGood(String rangeNumber, String position){
 		boolean goodRequest=true;
-		rangeInput = new Range();
-		rangeInput.setMg(mgRequest);
-		if(rangeInput.isTelNumber(startRangeRequest)){
-			if(rangeInput.isLengthGood(startRangeRequest, 5, 7)){
-				rangeInput.startRange = startRangeRequest;
+		if(Range.isTelNumber(rangeNumber)){
+			if(Range.isLengthGood(rangeNumber, 5, 7)){
+				return goodRequest;
 			}else{
-				answerLines.add("<p>Start range length is invalid, it should be between 5 and 7 digits   "+ startRangeRequest + "</p>");
+				answerLines.add("<p>"+ position + " range length is invalid, it should be between 5 and 7 digits   "+ rangeNumber + "</p>");
 				goodRequest=false;
 			}			
 		}else{
+			answerLines.add("<p>You put invalid value for " + position + " range  "+ rangeNumber + "</p>");
 			goodRequest=false;
-			answerLines.add("<p>You put invalid value for start range  "+ startRangeRequest + "</p>");
-		}
-		
-		if(rangeInput.isTelNumber(endRangeRequest)){
-			if(rangeInput.isLengthGood(endRangeRequest, 5, 7)){
-				rangeInput.endRange = endRangeRequest;
-			}else{
-				answerLines.add("<p>End range length is invalid, it should be between 5 and 7 digits   "+ endRangeRequest + "</p>");
-				goodRequest=false;
-
-			}			
-		}else{
-			goodRequest=false;
-			answerLines.add("<p>You put invalid value for end range  "+ endRangeRequest + "</p>");
 		}
 		return goodRequest;
 	}
+
 	
 	public void compareRanges(List<Range> rangesSmall){
 		String outputLine;
-		outputString = new StringBuilder();
 		
 		boolean freeRange=true;
 		for(Range toCompare: rangesSmall){// Za svaki element iz manje tabele koja se koristi da se proveri stanje u vecoj tabeli
@@ -76,9 +85,7 @@ public class SearchRanges {
 			if(subractRange<=0){
 				outputLine = "!!! Error start  "  +toCompare.mg + "/" + smallStartRange  +
 						 	  " is greater then end " + toCompare.mg + "/" + smallEndRange;
-				//System.out.println( outputLine);
 				answerLines.add(outputLine);
-				//outputString.append(outputLine);
 				freeRange=false;
 			}
 /*		not relevant for this purpose
@@ -93,8 +100,6 @@ public class SearchRanges {
 			if(subractRange>10000){
 				outputLine = "!!! Warrning  " + toCompare.mg + "/" +
 						smallStartRange + " - " + smallEndRange  + " is very big range " + subractRange;
-				//System.out.println( outputLine);
-				//outputString.append(outputLine);
 				answerLines.add(outputLine);
 			}
 			
@@ -111,8 +116,6 @@ public class SearchRanges {
 						outputLine = "!!! Error " + inRanges.mg + "/" + smallStartRange + " - " 
 								+ smallEndRange + " start is within  range " +  toCompare.mg +  "/" + bigStartRange  
 								+ " - " + bigEndRange  ;
-						//System.out.println( outputLine);
-						//outputString.append(outputLine);
 						answerLines.add(outputLine);
 						freeRange=false;
 					}
@@ -120,8 +123,6 @@ public class SearchRanges {
 						outputLine = "!!! Error " + inRanges.mg + "/" +  smallStartRange + " - " 
 									+ smallEndRange + " end is within range " + toCompare.mg +  "/" 	+ bigStartRange  
 									+ " - " + bigEndRange;
-						//System.out.println( outputLine);
-						//outputString.append(outputLine);
 						answerLines.add(outputLine);
 						freeRange=false;
 					}
@@ -131,193 +132,103 @@ public class SearchRanges {
 		
 		if(	freeRange){
 			outputLine = "Range you entered is free for assignment ";
-			//System.out.println( outputLine);
-			//outputString.append(outputLine);
 			answerLines.add(outputLine);
 		}
 		
 	}
 	
-	public StringBuilder compareRanges(List<Range> rangesBig, List<Range> rangesSmall){
-		
-		outputString = new StringBuilder();
-		String outputLine;
-		boolean freeRange=true;
-		for(Range toCompare: rangesSmall){// Za svaki element iz manje tabele koja se koristi da se proveri stanje u vecoj tabeli
-			
-			int smallStartRange = Integer.parseInt(toCompare.startRange);
-			int smallEndRange = Integer.parseInt(toCompare.endRange);
-			int subractRange = smallEndRange - smallStartRange+1;
-
-			
-			if(subractRange<=0){
-				outputLine = "!!! Error start  "  +toCompare.mg + "/" + smallStartRange  +
-						 	  " is greater then end " + toCompare.mg + "/" + smallEndRange +appendEnd;
-				//System.out.println( outputLine);
-				outputString.append(outputLine);
-				freeRange=false;
-			}
-/*		not relevant for this purpose
-	  		
-	  		if(subractRange%1000 !=0){
-					outputLine = "!!! Greska opseg " + toCompare.mg + "/" +
-							smallStartRange + " - " + smallEndRange  + " nije odgovarajuce velicine " + subractRange + appendEnd;
-					System.out.println( outputLine);
-					outputString.append(outputLine);
-				}
-*/
-			if(subractRange>10000){
-				outputLine = "!!! Warrning  " + toCompare.mg + "/" +
-						smallStartRange + " - " + smallEndRange  + " is very big range " + subractRange + appendEnd;
-				//System.out.println( outputLine);
-				outputString.append(outputLine);
-			}
-			
-			// Ispituje se svaki element u velikoj zvanicnoj tabeli da li se novi opseg nalazi u okviru postojeceg
-			// ukoliko se pocetak  ili kraj novog opsega (toComapare) nalazi unutar postojeceg prijavljuje gresku
-			for(Range inRanges: rangesBig){
-					
-				if(toCompare.mg.equals(inRanges.mg)){
-
-					int bigStartRange = Integer.parseInt(inRanges.startRange);
-					int bigEndRange = Integer.parseInt(inRanges.endRange);
-
-					if(smallStartRange>=bigStartRange && smallStartRange<=bigEndRange){
-						outputLine = "!!! Error " + inRanges.mg + "/" + smallStartRange + " - " 
-								+ smallEndRange + " start is within  range " +  toCompare.mg +  "/" + bigStartRange  
-								+ " - " + bigEndRange  + appendEnd;
-						//System.out.println( outputLine);
-						outputString.append(outputLine);
-						freeRange=false;
-					}
-					if(smallEndRange>=bigStartRange && smallEndRange<=bigEndRange){
-						outputLine = "!!! Error " + inRanges.mg + "/" +  smallStartRange + " - " 
-									+ smallEndRange + " end is within range " + toCompare.mg +  "/" 	+ bigStartRange  
-									+ " - " + bigEndRange  + appendEnd;
-						//System.out.println( outputLine);
-						outputString.append(outputLine);
-						freeRange=false;
-					}
-				}
-			}//for(Range inRanges: unutrašnja petlja koja prolazi kroz veliku tabelu dodeljenih brojeva
+	public void prepareAnswers(int rangeIndex, Range toCompare){
+		Range refRange = rangesBig.get(rangeIndex);
+		if(refRange.getEndRange().compareTo(toCompare.getStartRange())>0){
+			System.out.println( "Wrong request is within existing range          " + refRange);
 		}
-		
-		if(	freeRange){
-			outputLine = "Range you entered is free for assignment " +  appendEnd;
-		//System.out.println( outputLine);
-		outputString.append(outputLine);	
+		if(rangesBig.get(rangeIndex+1).getStartRange().compareTo(toCompare.getEndRange())<0){
+			System.out.println( "Overlaping the request with exising range(s)   " + rangesBig.get(rangeIndex+1));
 		}
-		return outputString;
 	}
 	
-	public StringBuilder findRanges(List<Range> rangesBig, List<Range> rangesSmall){
-		
-		outputString = new StringBuilder();
-		String outputLine;
-		boolean freeRange=true;
-		for(Range toCompare: rangesSmall){// Za svaki element iz manje tabele koja se koristi da se proveri stanje u vecoj tabeli
-			
-			int smallStartRange = Integer.parseInt(toCompare.startRange);
-			int smallEndRange = Integer.parseInt(toCompare.endRange);
-			int subractRange = smallEndRange - smallStartRange+1;
+	// binarySearch method returns index of the Range that is first range bellow range that is checked (toCompare)
+	// comparison is perform first by Range.mg after that by  Range.startRange property 
+	// rangeComparator.compareNatural(rangesBig.get(mid), toCompare) is method for comparison  
+	public int binarySearch(List<Range> rangesBig, Range toCompare){
+		RangeComparator rangeComparator = new RangeComparator(RangeComparator.NATURAL);
+		Collections.sort(rangesBig, rangeComparator);
+		int lo=0;
+		int hi=rangesBig.size()-1;
+		int mid = 0;
+	       while (lo < hi) {
+	    	   mid = (hi + lo) / 2;
+		       System.out.println( "mid " + mid + ", lo " + lo + ", hi " + hi );
+		       System.out.println( "mid " + rangesBig.get(mid).getMg() +rangesBig.get(mid).getStartRange() +
+		    		   ", lo " + rangesBig.get(lo).getMg() + rangesBig.get(lo).getStartRange()+
+		    		   ", hi " + rangesBig.get(hi).getMg() + rangesBig.get(hi).getStartRange());
 
-			
-			if(subractRange<=0){
-				outputLine = "!!! Error start  "  +toCompare.mg + "/" + smallStartRange  +
-						 	  " is greater then end " + toCompare.mg + "/" + smallEndRange +appendEnd;
-				//System.out.println( outputLine);
-				outputString.append(outputLine);
-				freeRange=false;
-			}
-/*		not relevant for this purpose
-	  		
-	  		if(subractRange%1000 !=0){
-					outputLine = "!!! Greska opseg " + toCompare.mg + "/" +
-							smallStartRange + " - " + smallEndRange  + " nije odgovarajuce velicine " + subractRange + appendEnd;
-					System.out.println( outputLine);
-					outputString.append(outputLine);
-				}
-*/
-			if(subractRange>10000){
-				outputLine = "!!! Warrning  " + toCompare.mg + "/" +
-						smallStartRange + " - " + smallEndRange  + " is very big range " + subractRange + appendEnd;
-				//System.out.println( outputLine);
-				outputString.append(outputLine);
-			}
-			
-			// Ispituje se svaki element u velikoj zvanicnoj tabeli da li se novi opseg nalazi u okviru postojeceg
-			// ukoliko se pocetak  ili kraj novog opsega (toComapare) nalazi unutar postojeceg prijavljuje gresku
-			Range closestRange = binarySearch( rangesBig, toCompare);
-	        //System.out.println( "closestRange is " + closestRange);
-			int index = rangesBig.indexOf(closestRange);
-	        System.out.println( "previous range is " + rangesBig.get(index-1));
-	        System.out.println( "closest range is  " + closestRange);
-	        System.out.println( "------- range is  " + toCompare + "-----");
-	        System.out.println( "next range is     " + rangesBig.get(index+1));
+				int comparationResult = rangeComparator.compareNatural(rangesBig.get(mid), toCompare);
 
+	            if (comparationResult<0) {
+	                if(lo != mid){
+	                	lo = mid;
+	                }else{
+	                	break;
+	                }
 
+	            } else if (comparationResult>0) {
+	                if(hi != mid){
+	                	hi = mid;
+	                }else{
+	                	break;
+	                }
+	            } else {
+                	break;
+	            }
 
-			for(Range inRanges: rangesBig){
-				if(toCompare.mg.equals(inRanges.mg)){
-
-					int bigStartRange = Integer.parseInt(inRanges.startRange);
-					int bigEndRange = Integer.parseInt(inRanges.endRange);
-
-					if(smallStartRange>=bigStartRange && smallStartRange<=bigEndRange){
-						outputLine = "!!! Error " + inRanges.mg + "/" + smallStartRange + " - " 
-								+ smallEndRange + " start is within  range " +  toCompare.mg +  "/" + bigStartRange  
-								+ " - " + bigEndRange  + appendEnd;
-						//System.out.println( outputLine);
-						outputString.append(outputLine);
-						freeRange=false;
-					}
-					if(smallEndRange>=bigStartRange && smallEndRange<=bigEndRange){
-						outputLine = "!!! Error " + inRanges.mg + "/" +  smallStartRange + " - " 
-									+ smallEndRange + " end is within range " + toCompare.mg +  "/" 	+ bigStartRange  
-									+ " - " + bigEndRange  + appendEnd;
-						//System.out.println( outputLine);
-						outputString.append(outputLine);
-						freeRange=false;
-					}
-				}
-			}//for(Range inRanges: unutrašnja petlja koja prolazi kroz veliku tabelu dodeljenih brojeva
-		}
-		
-		if(	freeRange){
-			outputLine = "Range you entered is free for assignment " +  appendEnd;
-		//System.out.println( outputLine);
-		outputString.append(outputLine);	
-		}
-		return outputString;
+	        }
+	        System.out.println( "closestRange = rangesBig.get(mid) first bellow is: " + rangesBig.get(mid));
+	        System.out.println( "Range to compare                                   " + toCompare);
+	        System.out.println( "First above rangesBig.get(mid+1) first above is:   " + rangesBig.get(mid+1));
+	        
+	        return mid;
 	}
-
-	public Range binarySearch(List<Range> rangesBig, Range toCompare){
+	
+	public Range binarySearchOld(List<Range> rangesBig, Range toCompare){
 		RangeComparator rangeComparator = new RangeComparator(RangeComparator.NATURAL);
 		Collections.sort(rangesBig, rangeComparator);
 		Range closestRange=null;
 		int lo=0;
 		int hi=rangesBig.size()-1;
+		int mid = 0;
 	       while (lo < hi) {
-	            int mid = (hi + lo) / 2;
-		        //System.out.println( "rangesBig.get(mid) " + rangesBig.get(mid));
+	    	   mid = (hi + lo) / 2;
+		       System.out.println( "mid " + mid + ", lo " + lo + ", hi " + hi );
+		       System.out.println( "mid " + rangesBig.get(mid).getMg() +rangesBig.get(mid).getStartRange() +
+		    		   ", lo " + rangesBig.get(lo).getMg() + rangesBig.get(lo).getStartRange()+
+		    		   ", hi " + rangesBig.get(hi).getMg() + rangesBig.get(hi).getStartRange());
 
 				int comparationResult = rangeComparator.compareNatural(rangesBig.get(mid), toCompare);
 
 	            if (comparationResult<0) {
-	                lo = mid + 1;
+	                if(lo != mid){
+	                	lo = mid;
+	                }else{
+	                	break;
+	                }
 
 	            } else if (comparationResult>0) {
-	            	hi = mid - 1;
+	                if(hi != mid){
+	                	hi = mid;
+	                }else{
+	                	break;
+	                }
 	            } else {
 	            	closestRange =  rangesBig.get(mid);
 	            	return closestRange;
 	            }
 			    //System.out.println( "lo is " + lo + "hi is " + hi + "comparationResult " + comparationResult) ;
-		        //System.out.println( "closestRange is " + closestRange);
 
 	        }
 	       // return (a[lo] - value) < (value - a[hi]) ? a[lo] : a[hi];
-	       
+	        System.out.println( "closestRange rangesBig.get(mid) first bellow is: " + rangesBig.get(mid));
+
 	        if(rangeComparator.compareNatural(rangesBig.get(lo), toCompare) < rangeComparator.compareNatural(toCompare,rangesBig.get(hi))){
 	        	closestRange =  rangesBig.get(lo);
 	        }else{
@@ -354,10 +265,10 @@ public class SearchRanges {
 				int compareNumberStart = closestRange.startRange.compareTo(checking.startRange);
 				int compareNumberEnd = closestRange.endRange.compareTo(checking.startRange);
 				System.out.println("*** compareNumberStart" + compareNumberStart + " compareNumberEnd" +compareNumberEnd);
-	
+				System.out.println("*** compareNumberStart" + closestRange.startRange + " compareNumberEnd" +closestRange.endRange);
+
 				if( compareNumberStart<0 && compareNumberEnd>0){
-					System.out.println("*** " + checking + " in");
-					System.out.println("*** " + existing + " ");
+					System.out.println("*** " + checking + " exists ");
 	
 				}
 			    //return compareNumberStart < compareNumberEnd ? compareNumberStart : compareNumberEnd;
@@ -369,72 +280,5 @@ public class SearchRanges {
 	}
 
 
-	public List<String> rangesAvilable(List<Range> rangesBig, List<Range> rangesSmall){
-		
-		resultList = new ArrayList<>();
-		String outputLine;
-		boolean freeRange=true;
-		for(Range toCompare: rangesSmall){// Za svaki element iz manje tabele koja se koristi da se proveri stanje u vecoj tabeli
-			
-			int smallStartRange = Integer.parseInt(toCompare.startRange);
-			int smallEndRange = Integer.parseInt(toCompare.endRange);
-			int subractRange = smallEndRange - smallStartRange+1;
-
-			
-			if(subractRange<=0){
-				outputLine = "!!! Error start  "  +toCompare.mg + "/" + smallStartRange  +
-						 	  " is greater then end " + toCompare.mg + "/" + smallEndRange;
-				resultList.add(outputLine);
-				freeRange=false;
-			}
-/*		not relevant for this purpose
-	  		
-	  		if(subractRange%1000 !=0){
-					outputLine = "!!! Greska opseg " + toCompare.mg + "/" +
-							smallStartRange + " - " + smallEndRange  + " nije odgovarajuce velicine " + subractRange + appendEnd;
-					System.out.println( outputLine);
-					outputString.append(outputLine);
-					resultList.add(outputLine);
-
-				}
-*/
-			if(subractRange>10000){
-				outputLine = "!!! Warrning  " + toCompare.mg + "/" +
-						smallStartRange + " - " + smallEndRange  + " is very big range " + subractRange + appendEnd;
-				resultList.add(outputLine);
-			}
-			
-			// Ispituje se svaki element u velikoj zvanicnoj tabeli da li se novi opseg nalazi u okviru postojeceg
-			// ukoliko se pocetak  ili kraj novog opsega (toComapare) nalazi unutar postojeceg prijavljuje gresku
-			for(Range inRanges: rangesBig){
-					
-				if(toCompare.mg.equals(inRanges.mg)){
-
-					int bigStartRange = Integer.parseInt(inRanges.startRange);
-					int bigEndRange = Integer.parseInt(inRanges.endRange);
-
-					if(smallStartRange>=bigStartRange && smallStartRange<=bigEndRange){
-						outputLine = "!!! Error " + inRanges.mg + "/" + smallStartRange + " - " + smallEndRange +
-								 	 " start is within  range " +  toCompare.mg +  "/" + bigStartRange  + " - " + bigEndRange  ;
-						resultList.add(outputLine);
-						freeRange=false;
-					}
-					if(smallEndRange>=bigStartRange && smallEndRange<=bigEndRange){
-						outputLine = "!!! Error " + inRanges.mg + "/" +  smallStartRange + " - " + smallEndRange +
-									  " end is within range " + toCompare.mg +  "/" + bigStartRange  + " - " + bigEndRange ;
-						resultList.add(outputLine);
-						freeRange=false;
-					}
-				}
-			}//for(Range inRanges: unutrašnja petlja koja prolazi kroz veliku tabelu dodeljenih brojeva
-		}
-		
-		if(	freeRange){
-			outputLine = "Range you entered is free for assignment ";
-			resultList.add(outputLine);
-		}
-		return resultList;
-	}
-	
 }
 

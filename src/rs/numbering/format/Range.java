@@ -152,10 +152,9 @@ package rs.numbering.format;
 			return false;
 		}
 	}
-	public boolean isTelNumber(String inNumber){
+	public static boolean isTelNumber(String inNumber){
 		try{
 			Integer.parseInt(inNumber);
-			
 			return true;
 		}catch(NumberFormatException  ex){
 			System.out.println("Not a number " + inNumber);
@@ -163,7 +162,7 @@ package rs.numbering.format;
 		}
 	}
 	
-	public boolean isLengthGood(String inNumber, int min, int max){
+	public static boolean isLengthGood(String inNumber, int min, int max){
 		try{
 			Integer.parseInt(inNumber);
 			if(inNumber.length()< min){

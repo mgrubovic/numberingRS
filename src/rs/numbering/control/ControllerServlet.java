@@ -1,16 +1,14 @@
 package rs.numbering.control;
 
 import rs.numbering.operation.*;
+import rs.numbering.format.*;
+
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
-import rs.numbering.format.*;
-import rs.numbering.operation.*;
-
-
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +27,6 @@ public class ControllerServlet extends HttpServlet {
      */
     public ControllerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -44,36 +41,23 @@ public class ControllerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+		ServletContext sContext = request.getServletContext();
+		List <Range> rangesMain = (List<Range>) sContext.getAttribute("geoRange");
+		
 		String hiddenParam = request.getParameter("select");
-		System.out.println("hiddenParam is "+ hiddenParam);
+//		System.out.println("hiddenParam is "+ hiddenParam);
 		if(hiddenParam.equals("range")){
 			String mgRequest= request.getParameter("mg");
 			String startRangeRequest = request.getParameter("startRange");
 			String endRangeRequest = request.getParameter("endRange");
 
-			boolean goodRequest = true;
-			SearchRanges searchRanges = new SearchRanges();
-			goodRequest = searchRanges.isRequestGood(mgRequest, startRangeRequest, endRangeRequest);
-			
-			if(goodRequest){
-				List <Range> list1 = new ArrayList<>();
-				list1.add(searchRanges.rangeInput);
-				searchRanges.compareRanges(list1);
-				
-				request.setAttribute("answerRange", searchRanges.answerLines);
-				RequestDispatcher view = request.getRequestDispatcher("/ranges/RangeCheckResult.jsp");
-				view.forward(request, response);
-/*				
-				for(String line:searchRanges.answerLines){
-					out.println("<p>");
-					out.println(line);
-					out.println("</p>");
-				}
-*/				
-			}else{
-				out.println("<p>You put invalid value try again</p><br/>");
-			}
+			SearchRanges searchRanges = new SearchRanges(rangesMain);
+			searchRanges.getAnswers(mgRequest, startRangeRequest, endRangeRequest);
+
+			request.setAttribute("answerRange", searchRanges.answerLines);
+			RequestDispatcher view = request.getRequestDispatcher("/ranges/RangeCheckResult.jsp");
+			view.forward(request, response);
+
 		}else if(hiddenParam.equals("number")){
 			String hiddenString = request.getParameter("numbersToSend");
 			SearchNumbers searchNumbers = new SearchNumbers();
