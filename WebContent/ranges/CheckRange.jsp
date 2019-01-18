@@ -2,23 +2,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ page import="rs.numbering.format.*"%>
-<%@ page import="rs.numbering.model.*"%>
-<%@ page import="rs.numbering.jaxb.*"%>
-<%@ page import="rs.numbering.source.*, rs.numbering.operation.*"%>
 
 <%@ page import="java.util.*, java.io.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="../css/style_main.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="../css/style_main.css" />
 
-<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="../js/checkInput.js"></script>
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+	<!-- script type="text/javascript" src="../js/checkInput.js"></script-->
 
-<title>Numbering</title>
+	<title>Numbering</title>
 </head>
 <body>
 	<div class="header">
@@ -29,10 +25,8 @@
 		<div class="main-right">
 			<h3>You can check existence of the range</h3>
 			
-			<p> On this site you can check out if the numbering range exists	or it is free for assignment</p>
+			<p> On this site you can check out if the numbering range exists or it is free for assignment</p>
 				
-			<!-- form action="RangeCheckResult.jsp"
-			 action="../CheckNumberServletBack" method="post" -->
 			<form action="../check" method="post">
 				<input type="hidden" name="select" value="range">
 				<p>Select area code:

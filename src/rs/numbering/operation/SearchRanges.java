@@ -6,7 +6,6 @@ package rs.numbering.operation;
 import java.util.*;
 
 import rs.numbering.format.Range;
-import rs.numbering.model.DataModelServlet;
 
 /**
  * @author milosav.grubovic
@@ -15,33 +14,19 @@ import rs.numbering.model.DataModelServlet;
 
 public class SearchRanges {
 	
-	public String appendEnd = "+!!+";
-	StringBuilder outputString;
-	public static List<Range> rangesBig;
+	//StringBuilder outputString;
+	public List<Range> rangesBig;
 	public List <String> answerLines;
-	public Range rangeInput;
 	
-	
-	
-	public SearchRanges() {
-		answerLines = new ArrayList<String>();
-		rangesBig=DataModelServlet.rangesMain;
-	}
-	
-
 	public SearchRanges(List<Range> rangesBig) {
 		answerLines = new ArrayList<String>();
-		SearchRanges.rangesBig=rangesBig;
+		this.rangesBig=rangesBig;
 	}
 	
-	public void getAnswers(String mgRequest,String startRangeRequest, String endRangeRequest){
-		
-		boolean goodRange = true;
-		goodRange = isNumberGood(startRangeRequest, "start");
-		goodRange = isNumberGood(endRangeRequest, "end");
-		
-		if(goodRange){
-			rangeInput = new Range();
+	public List <String> getAnswers(String mgRequest,String startRangeRequest, String endRangeRequest){
+		getRequestLabel(mgRequest,startRangeRequest, endRangeRequest);
+		if( isGoodRequest(startRangeRequest, endRangeRequest)){
+			Range rangeInput = new Range();
 			rangeInput.setMg(mgRequest);
 			rangeInput.setStartRange(startRangeRequest); 
 			rangeInput.setEndRange(endRangeRequest);
@@ -49,18 +34,52 @@ public class SearchRanges {
 			List <Range> list1 = new ArrayList<>();
 			list1.add(rangeInput);
 			compareRanges(list1);
+			
 			int rangeIndex = binarySearch(rangesBig, rangeInput);
 			prepareAnswers(rangeIndex, rangeInput);
-			}
+		}
+		return answerLines;
+
 	}
 
+	public void getRequestLabel(String mgRequest,String startRangeRequest, String endRangeRequest){
+		answerLines.add("<table><tr><th>Area code</th><th>Start of the range</th><th>End of the range</th></tr>");	
+		answerLines.add("<tr><td>" + mgRequest +"</td><td>" + startRangeRequest + "</td><td>" + endRangeRequest + "</td></tr>");
+		answerLines.add("</table>");
+	}
+	
+	public boolean isGoodRequest(String startRangeRequest, String endRangeRequest){
+		boolean goodRequest = true;
+		
+		boolean goodStartRange = isNumberGood(startRangeRequest, "start");
+		boolean goodEndRange = isNumberGood(endRangeRequest, "end");
+		
+		if(!(goodStartRange && goodEndRange)){
+			goodRequest = false;
+			return goodRequest;
+		}
+		
+		if(startRangeRequest.length() != endRangeRequest.length() ){
+		
+			answerLines.add("<p>Start and end range must be same in length  </p>");
+			goodRequest = false;
+			return goodRequest;
+		}
+		
+		if(startRangeRequest.compareTo(endRangeRequest) >= 0 ){
+			answerLines.add("<p>End range must be greater then start range</p>");
+			goodRequest = false;
+			return goodRequest;
+		}
+		return goodRequest;
+	}
 	public boolean isNumberGood(String rangeNumber, String position){
 		boolean goodRequest=true;
 		if(Range.isTelNumber(rangeNumber)){
 			if(Range.isLengthGood(rangeNumber, 5, 7)){
 				return goodRequest;
 			}else{
-				answerLines.add("<p>"+ position + " range length is invalid, it should be between 5 and 7 digits   "+ rangeNumber + "</p>");
+				answerLines.add("<p>"+ position + " range length is invalid, it should be 5, 6 or 7 digits long  "+ rangeNumber + "</p>");
 				goodRequest=false;
 			}			
 		}else{
@@ -88,15 +107,7 @@ public class SearchRanges {
 				answerLines.add(outputLine);
 				freeRange=false;
 			}
-/*		not relevant for this purpose
-	  		
-	  		if(subractRange%1000 !=0){
-					outputLine = "!!! Greska opseg " + toCompare.mg + "/" +
-							smallStartRange + " - " + smallEndRange  + " nije odgovarajuce velicine " + subractRange + appendEnd;
-					System.out.println( outputLine);
-					outputString.append(outputLine);
-				}
-*/
+
 			if(subractRange>10000){
 				outputLine = "!!! Warrning  " + toCompare.mg + "/" +
 						smallStartRange + " - " + smallEndRange  + " is very big range " + subractRange;
@@ -137,17 +148,54 @@ public class SearchRanges {
 		
 	}
 	
-	public void prepareAnswers(int rangeIndex, Range toCompare){
+	public void prepareAnswers(int rangeIndex, Range checkRange){
+		String outputLine=null;
+		
 		Range refRange = rangesBig.get(rangeIndex);
-		if(refRange.getEndRange().compareTo(toCompare.getStartRange())>0){
-			System.out.println( "Wrong request is within existing range          " + refRange);
+		String refArea = refRange.getMg();
+		int refStart = Integer.parseInt(refRange.getStartRange());
+		int refEnd = Integer.parseInt(refRange.getEndRange());
+		
+		String refNextArea = rangesBig.get(rangeIndex+1).getMg();
+		int refNextStart = Integer.parseInt(rangesBig.get(rangeIndex+1).getStartRange());
+		
+		int checkStart = Integer.parseInt(checkRange.getStartRange());
+		int checkEnd = Integer.parseInt(checkRange.getEndRange());
+		
+		boolean goodAnswer = true;
+
+		if( refArea.equals(checkRange.getMg()) ){
+			if( refStart <= checkStart && refEnd >= checkStart){
+				outputLine = "Wrong start range is within existing range          " + refRange;
+				System.out.println( outputLine);
+				answerLines.add(outputLine);
+				goodAnswer = false;
+			}
+			if( refStart <= checkEnd && refEnd >= checkEnd){
+				outputLine = "Wrong end range is within existing range          " + refRange;
+				System.out.println( outputLine);
+				answerLines.add(outputLine);
+				goodAnswer = false;
+			}
 		}
-		if(rangesBig.get(rangeIndex+1).getStartRange().compareTo(toCompare.getEndRange())<0){
-			System.out.println( "Overlaping the request with exising range(s)   " + rangesBig.get(rangeIndex+1));
+		if( refNextArea.equals(checkRange.getMg()) ){
+			if(refNextStart<checkEnd){
+				outputLine = "Overlaping the end range with exising range(s)   " + rangesBig.get(rangeIndex+1);
+				System.out.println( outputLine);
+				answerLines.add(outputLine);
+				goodAnswer = false;
+			}
+		}
+		
+		if(goodAnswer){
+			outputLine = "The range you entered is free for asignment";
+			System.out.println( outputLine);
+			answerLines.add(outputLine);
 		}
 	}
+
 	
-	// binarySearch method returns index of the Range that is first range bellow range that is checked (toCompare)
+	// binarySearch method returns index of the Range that is first range bellow number we are checking (toCompare)
 	// comparison is perform first by Range.mg after that by  Range.startRange property 
 	// rangeComparator.compareNatural(rangesBig.get(mid), toCompare) is method for comparison  
 	public int binarySearch(List<Range> rangesBig, Range toCompare){
@@ -156,129 +204,39 @@ public class SearchRanges {
 		int lo=0;
 		int hi=rangesBig.size()-1;
 		int mid = 0;
-	       while (lo < hi) {
-	    	   mid = (hi + lo) / 2;
-		       System.out.println( "mid " + mid + ", lo " + lo + ", hi " + hi );
-		       System.out.println( "mid " + rangesBig.get(mid).getMg() +rangesBig.get(mid).getStartRange() +
-		    		   ", lo " + rangesBig.get(lo).getMg() + rangesBig.get(lo).getStartRange()+
-		    		   ", hi " + rangesBig.get(hi).getMg() + rangesBig.get(hi).getStartRange());
+	    while (lo < hi) {
+    	   mid = (hi + lo) / 2;
+	       System.out.println( "mid " + mid + ", lo " + lo + ", hi " + hi );
+	       System.out.println( "mid " + rangesBig.get(mid).getMg() +rangesBig.get(mid).getStartRange() +
+	    		   ", lo " + rangesBig.get(lo).getMg() + rangesBig.get(lo).getStartRange()+
+	    		   ", hi " + rangesBig.get(hi).getMg() + rangesBig.get(hi).getStartRange());
 
-				int comparationResult = rangeComparator.compareNatural(rangesBig.get(mid), toCompare);
+			int comparationResult = rangeComparator.compareNatural(rangesBig.get(mid), toCompare);
 
-	            if (comparationResult<0) {
-	                if(lo != mid){
-	                	lo = mid;
-	                }else{
-	                	break;
-	                }
-
-	            } else if (comparationResult>0) {
-	                if(hi != mid){
-	                	hi = mid;
-	                }else{
-	                	break;
-	                }
-	            } else {
+            if (comparationResult<0) {
+                if(lo != mid){
+                	lo = mid;
+                }else{
                 	break;
-	            }
+                }
 
-	        }
-	        System.out.println( "closestRange = rangesBig.get(mid) first bellow is: " + rangesBig.get(mid));
-	        System.out.println( "Range to compare                                   " + toCompare);
-	        System.out.println( "First above rangesBig.get(mid+1) first above is:   " + rangesBig.get(mid+1));
-	        
-	        return mid;
+            } else if (comparationResult>0) {
+                if(hi != mid){
+                	hi = mid;
+                }else{
+                	break;
+                }
+            } else {
+            	break;
+            }
+
+        }
+        System.out.println( "closestRange = rangesBig.get(mid) first bellow is: " + rangesBig.get(mid));
+        System.out.println( "Range to compare                                   " + toCompare);
+        System.out.println( "First above rangesBig.get(mid+1) first above is:   " + rangesBig.get(mid+1));
+        
+	    return mid;
 	}
-	
-	public Range binarySearchOld(List<Range> rangesBig, Range toCompare){
-		RangeComparator rangeComparator = new RangeComparator(RangeComparator.NATURAL);
-		Collections.sort(rangesBig, rangeComparator);
-		Range closestRange=null;
-		int lo=0;
-		int hi=rangesBig.size()-1;
-		int mid = 0;
-	       while (lo < hi) {
-	    	   mid = (hi + lo) / 2;
-		       System.out.println( "mid " + mid + ", lo " + lo + ", hi " + hi );
-		       System.out.println( "mid " + rangesBig.get(mid).getMg() +rangesBig.get(mid).getStartRange() +
-		    		   ", lo " + rangesBig.get(lo).getMg() + rangesBig.get(lo).getStartRange()+
-		    		   ", hi " + rangesBig.get(hi).getMg() + rangesBig.get(hi).getStartRange());
-
-				int comparationResult = rangeComparator.compareNatural(rangesBig.get(mid), toCompare);
-
-	            if (comparationResult<0) {
-	                if(lo != mid){
-	                	lo = mid;
-	                }else{
-	                	break;
-	                }
-
-	            } else if (comparationResult>0) {
-	                if(hi != mid){
-	                	hi = mid;
-	                }else{
-	                	break;
-	                }
-	            } else {
-	            	closestRange =  rangesBig.get(mid);
-	            	return closestRange;
-	            }
-			    //System.out.println( "lo is " + lo + "hi is " + hi + "comparationResult " + comparationResult) ;
-
-	        }
-	       // return (a[lo] - value) < (value - a[hi]) ? a[lo] : a[hi];
-	        System.out.println( "closestRange rangesBig.get(mid) first bellow is: " + rangesBig.get(mid));
-
-	        if(rangeComparator.compareNatural(rangesBig.get(lo), toCompare) < rangeComparator.compareNatural(toCompare,rangesBig.get(hi))){
-	        	closestRange =  rangesBig.get(lo);
-	        }else{
-	        	closestRange =  rangesBig.get(hi);
-	        }
-			int index = rangesBig.indexOf(closestRange);
-
-	        rangeComparator.compareNaturalExistance(rangesBig.get(index-1), toCompare);
-	        rangeComparator.compareNaturalExistance(rangesBig.get(index), toCompare);
-	        rangeComparator.compareNaturalExistance(rangesBig.get(index+1), toCompare);
-	        compareNaturalExistance(rangesBig, toCompare, index);
-
-
-
-	        System.out.println( "closestRange is " + closestRange);
-	        return closestRange;
-	}
-	
-	public void compareNaturalExistance(List <Range> existing, Range checking, int index ) {
-		int startIndex=index-1;
-		int endIndex=index+1;
-	
-		if(index==0){
-			startIndex = index;
-		}
-		if(index==existing.size()-1){
-			endIndex=index;
-		}
-		
-		for(int i= startIndex; i<= endIndex ;i++){
-			Range closestRange = existing.get(i);
-			int compareNumber = closestRange.mg.compareTo(checking.mg);
-			if(compareNumber==0){
-				int compareNumberStart = closestRange.startRange.compareTo(checking.startRange);
-				int compareNumberEnd = closestRange.endRange.compareTo(checking.startRange);
-				System.out.println("*** compareNumberStart" + compareNumberStart + " compareNumberEnd" +compareNumberEnd);
-				System.out.println("*** compareNumberStart" + closestRange.startRange + " compareNumberEnd" +closestRange.endRange);
-
-				if( compareNumberStart<0 && compareNumberEnd>0){
-					System.out.println("*** " + checking + " exists ");
-	
-				}
-			    //return compareNumberStart < compareNumberEnd ? compareNumberStart : compareNumberEnd;
-	
-			}else{
-				//return compareNumber;
-			}
-		}// end of for(int i= startIndex; i< endIndex; i++){
-	}
-
 
 }
 

@@ -57,7 +57,7 @@ public class MainApp {
 		rangesSmall.add(test1);
 		rangesSmall.add(test2);
 		
-		SearchRanges schRanges = new SearchRanges();
+		//SearchRanges schRanges = new SearchRanges();
 
 
 	}

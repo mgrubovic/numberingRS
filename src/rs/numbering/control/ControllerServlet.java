@@ -45,31 +45,28 @@ public class ControllerServlet extends HttpServlet {
 		List <Range> rangesMain = (List<Range>) sContext.getAttribute("geoRange");
 		
 		String hiddenParam = request.getParameter("select");
-//		System.out.println("hiddenParam is "+ hiddenParam);
 		if(hiddenParam.equals("range")){
 			String mgRequest= request.getParameter("mg");
 			String startRangeRequest = request.getParameter("startRange");
 			String endRangeRequest = request.getParameter("endRange");
 
 			SearchRanges searchRanges = new SearchRanges(rangesMain);
-			searchRanges.getAnswers(mgRequest, startRangeRequest, endRangeRequest);
+			List <String> answerLines = searchRanges.getAnswers(mgRequest, startRangeRequest, endRangeRequest);
 
-			request.setAttribute("answerRange", searchRanges.answerLines);
+			request.setAttribute("answerRange", answerLines);
 			RequestDispatcher view = request.getRequestDispatcher("/ranges/RangeCheckResult.jsp");
 			view.forward(request, response);
 
 		}else if(hiddenParam.equals("number")){
 			String hiddenString = request.getParameter("numbersToSend");
-			SearchNumbers searchNumbers = new SearchNumbers();
-			searchNumbers.makeList(hiddenString);
-			searchNumbers.makeAnswer();
-			request.setAttribute("answers", searchNumbers.answerLines);
+			SearchNumbers searchNumbers = new SearchNumbers(rangesMain);
+			List <String> answerLines = searchNumbers.getAnswers(hiddenString);
+			request.setAttribute("answers", answerLines);
 			RequestDispatcher view = request.getRequestDispatcher("/numbers/NumberCheckResult.jsp");
 			view.forward(request, response);
 		}else{
 			System.out.println("No catch for " + " hiddenParam  "+ hiddenParam);
 		}
-		
 
 	}
 

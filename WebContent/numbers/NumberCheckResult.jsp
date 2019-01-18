@@ -2,10 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ page import="rs.numbering.format.*"%>
-<%@ page import="rs.numbering.source.*, rs.numbering.operation.*"%>
-<%@ page import="java.util.*"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,36 +20,13 @@
 		<jsp:include page="/moduls/Menu.jsp"></jsp:include>
 
 		<div class="main-right">
+		<table>
+			
 			<c:forEach var="answerLines" items="${requestScope.answers}">
-				<p>${answerLines}</p>
+				<tr><td>${answerLines}</td></tr>
 			</c:forEach>
-		
-
-			<%
-/*			
-				Using MVC but with scriplets
-				List <String> answerLines = (List <String>)request.getAttribute("answers");
-				for(String line:answerLines){
-					out.println("<p>");
-					out.println("--" + line);
-					out.println("</p>");
-				}
-*/				
-				
-/*				First version while building functionality
-				String hiddenString = request.getParameter("numbersToSend");
-
-				SearchNumbers searchNumbers = new SearchNumbers();
-				searchNumbers.makeList(hiddenString);
-				searchNumbers.makeAnswer();
-				request.setAttribute("answers", searchNumbers.answerLines);
-				for(String line:searchNumbers.answerLines){
-					out.println("<p>");
-					out.println(line);
-					out.println("</p>");
-				}
-*/
-			%>
+			
+		</table>
 
 		</div>
 		<!-- end of class="main-right" -->

@@ -142,38 +142,29 @@ package rs.numbering.format;
 	public void setColorCell(String colorCell) {
 		this.colorCell = colorCell;
 	}
-	
-	public boolean isTelNumber(String inNumber, String outNumber){
-		try{
-			Integer.parseInt(inNumber);
-			outNumber=inNumber;
-			return true;
-		}catch(NumberFormatException  ex){
-			return false;
-		}
-	}
+
 	public static boolean isTelNumber(String inNumber){
+		boolean isNumber = false;
 		try{
 			Integer.parseInt(inNumber);
-			return true;
+			isNumber =  true;
+			return isNumber;
 		}catch(NumberFormatException  ex){
 			System.out.println("Not a number " + inNumber);
-			return false;
+			return isNumber;
 		}
+
 	}
 	
 	public static boolean isLengthGood(String inNumber, int min, int max){
 		try{
+			boolean goodLength= true;
 			Integer.parseInt(inNumber);
-			if(inNumber.length()< min){
-				return false;
-			}else if(inNumber.length()> max){
-				return false;
+			if(inNumber.length()< min || inNumber.length()> max ){
+				goodLength =  false;
 			}
-			
-			return true;
+			return goodLength;
 		}catch(NumberFormatException  ex){
-			System.out.println("Not a number " + inNumber);
 			return false;
 		}
 	}

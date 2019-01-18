@@ -22,7 +22,7 @@ import rs.numbering.source.SourceReader;
 @WebListener
 public class DataModelServlet implements ServletContextListener {
 
-	public static List <Range> rangesMain;
+	protected static List <Range> rangesMain;
 	String jspPath = ""; 
 	String urlDescription = "";
 	

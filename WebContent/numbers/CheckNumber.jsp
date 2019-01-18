@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="rs.numbering.format.*"%>
-<%@ page import="rs.numbering.model.*"%>
-<%@ page import="rs.numbering.source.*, rs.numbering.operation.*, rs.numbering.jaxb.*"%>
+<%--@ page import="rs.numbering.format.*"--%>
+<%--@ page import="rs.numbering.model.*"--%>
+<%--@ page import="rs.numbering.source.*, rs.numbering.operation.*, rs.numbering.jaxb.*"--%>
 
 <%@ page import="java.util.*"%>
 <%@ page import="java.io.*"%>
@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="../css/style_main.css" />
 
 <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="../js/selectTableView.js"></script>
 <script type="text/javascript" src="../js/checkAndMakeTable.js"></script>
 
 
@@ -62,10 +61,9 @@
 				<input type="hidden" name="numbersToSend">
 				<input type="button" name="button1" value="Add number" /> 
 				<br/>
-				<br/>
-
 
 				<table id="expand-Table" border="3">
+				<!-- checkAndMakeTable.js is responsible for filling data in this table -->
 					<tr>
 						<th>index</th>
 						<th>area code</th>
@@ -73,18 +71,12 @@
 					</tr>
 				</table>
 
-				<div id="snd1">
-					<p>I'm going to send to server:</p>
-					<p/>
-
-				</div>
 				<input type="submit" name="send" value="SEND" />
 
 			</form>
 
 
 			<p>${applicationScope.dataSource}
-				<%-- =application.getAttribute("dataSource")--%>
 			</p>
 		
 			<p>

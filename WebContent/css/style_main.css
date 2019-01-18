@@ -25,6 +25,10 @@ a:hover{
 	color: red;
 }
 
+.errInput {
+	color: red;
+}
+
 .header {
 	background-color: darkblue; /*#151515;*/
 	padding: 15px;
