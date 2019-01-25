@@ -27,9 +27,16 @@ public class DataManager {
 	public List <Range> rangesMain;
 
 	
-	public void getRanges(){
+	public List <Range> getRanges(String format, String place){
 
+		ReadRangeFactory factoryReader =  new ReadRangeFactory(format);
+		ReadRange fromatReader = factoryReader.getFormatReader();
+		SourceReader sourceReader = factoryReader.getSourceReader();
+		List <Range> forRangesMain = sourceReader.takeData(place, fromatReader);
+		return forRangesMain;
+	}
 	
+	public void getRanges(){
 		ReadRangeFactory factoryReader =  new ReadRangeFactory(firstFormat);
 		ReadRange fromatReader = factoryReader.getFormatReader();
 		SourceReader sourceReader = factoryReader.getSourceReader();

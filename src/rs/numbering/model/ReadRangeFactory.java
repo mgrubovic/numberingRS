@@ -51,9 +51,11 @@ public class ReadRangeFactory {
 		}else if(fileFormat.equals("webCsvGeo")){
 			System.out.println("Source is " + "web");
 			setSourceReader(new WebReader());
-		}
-		else if(fileFormat.equals("dbShort")){
-			System.out.println("Method is " + "dbShort");
+		}else if(fileFormat.equals("dbShort")){
+			System.out.println("Source is " + "dbShort");
+			setSourceReader(new FileRangeReader());
+		}else if(fileFormat.equals("shortForm")){
+			System.out.println("Source is " + "shortForm");
 			setSourceReader(new FileRangeReader());
 		}
 	}

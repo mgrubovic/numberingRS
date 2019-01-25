@@ -23,7 +23,7 @@ import rs.numbering.source.SourceReader;
 public class DataModelServlet implements ServletContextListener {
 
 	protected static List <Range> rangesMain;
-	String jspPath = ""; 
+	String filePath = ""; 
 	String urlDescription = "";
 	
     /**
@@ -40,20 +40,21 @@ public class DataModelServlet implements ServletContextListener {
 		
 		
 		ServletContext sContext = event.getServletContext();
-		jspPath = sContext.getRealPath("/data");
+		filePath = sContext.getRealPath("/data");
 		
 		String firstPlace = sContext.getInitParameter("url-geo");
 		String firstFormat = "webCsvGeo";
 		urlDescription = "Table data are taken from web address: " + firstPlace;
-		rangesMain = getRanges( firstFormat, firstPlace);
+		DataManager dm = new DataManager();
+		rangesMain = dm.getRanges( firstFormat, firstPlace);
 		
 		// if app is not able to read from the web then it reads from a backup file
 		if(rangesMain.isEmpty()){
-			String fileName = sContext.getInitParameter("file-geo-short");
-			String secondPlace = jspPath + File.separator +  fileName;
+			String fileName = sContext.getInitParameter("file-geo");
+			String secondPlace = filePath + File.separator +  fileName;
 			String secondFormat = "fileCsvGeo";
 			urlDescription = "Table data are taken from backup file: " + fileName;
-			rangesMain = getRanges( secondFormat, secondPlace);
+			rangesMain = dm.getRanges( secondFormat, secondPlace);
 		}
 		
 	
@@ -68,20 +69,20 @@ public class DataModelServlet implements ServletContextListener {
 	
 		// list of area codes for SELECT element in forms
 		ListAreaCodeJaxb jaxbList = null;
-		String fileXmlAreaCodes = jspPath + File.separator +  "AreaCodes.xml";
+		String fileXmlAreaCodes = filePath + File.separator +  "AreaCodes.xml";
 		jaxbList = OperationJaxb.xmlToListAreaCode(fileXmlAreaCodes);
 		sContext.setAttribute("areaCode", jaxbList);
 		
 		// 
 		String fileXmlName = "RangesList.xml";
-		String fileXmlPlace = jspPath + File.separator +  fileXmlName;
+		String fileXmlPlace = filePath + File.separator +  fileXmlName;
 		File writeRange = new File(fileXmlPlace);
 		OperationJaxb.listRangeToXml(rangesMain, writeRange);
 		sContext.setAttribute("xmlDataFile", writeRange);
 
 	}
 
-
+	// for deletion
 	public List <Range> getRanges(String format, String place){
 
 		ReadRangeFactory factoryReader =  new ReadRangeFactory(format);
