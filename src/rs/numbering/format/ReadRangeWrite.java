@@ -1,5 +1,5 @@
 /**
- *  OCP Java SE 7 Programmer II Certification Guide
+ * 
  */
 package rs.numbering.format;
 
@@ -13,6 +13,7 @@ public class ReadRangeWrite implements ReadRange {
 
 	/* (non-Javadoc)
 	 * @see com.ratel.numeracija.check.ReadRange#processRangeEntry(java.lang.String)
+	 * 11;200000;11;200999
 	 */
 	@Override
 	public void processRangeEntry(String line, List<Range> ranges){
@@ -31,10 +32,5 @@ public class ReadRangeWrite implements ReadRange {
 		range.blockCount = (1+end-start)/1000; 
 		ranges.add(range);
 		
-/*		za proveru da li je dobro obradjen fajl
- * 
- * 		System.out.println(" " + range.operator + " " + range.mg + " opseg pocinje sa " + range.startRange.charAt(0) + " " +
- *								range.startRange + " " + range.endRange);
-*/
 	}
 }

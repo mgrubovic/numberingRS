@@ -3,6 +3,8 @@
  */
 package rs.numbering.format;
 
+import java.util.List;
+
 /**
  * @author milosav.grubovic
  *
@@ -20,6 +22,9 @@ package rs.numbering.format;
 	public String untilDate;
 	public String decisionNumber;
 	public String decisionDate;
+	private List <String> description;
+	
+
 	private String colorCell="pink";
 	
 	public Range(){}
@@ -135,6 +140,14 @@ package rs.numbering.format;
 
 
 	
+	public List <String> getDescription() {
+		return description;
+	}
+
+	public void setDescription(List <String> description) {
+		this.description = description;
+	}
+
 	public String getColorCell() {
 		return colorCell;
 	}
