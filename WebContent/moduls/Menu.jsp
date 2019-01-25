@@ -14,7 +14,7 @@
 				<a href="${pageContext.request.contextPath}/ranges/CheckRange.jsp">Find ranges</a>
 			</div>
 			<div class="menuitem">
-				<a href="${pageContext.request.contextPath}/compare.html">Compare</a>
+				<a href="${pageContext.request.contextPath}/compare/Compare.jsp">Compare</a>
 			</div>
 			<div class="menuitem">
 				<!-- a href="${pageContext.request.contextPath}/summary/SummaryHib.jsp">Summary</a -->
