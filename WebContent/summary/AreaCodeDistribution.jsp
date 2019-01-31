@@ -1,14 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ page import="rs.numbering.format.*"%>
-<%@ page import="rs.numbering.model.*"%>
-<%@ page import="rs.numbering.jaxb.*"%>
-<%@ page import="rs.numbering.hibernate.*"%>
-<%@ page import="rs.numbering.source.*, rs.numbering.operation.*"%>
-
-<%@ page import="java.util.*, java.io.*"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -36,27 +30,28 @@
 
 			<!--Div that will hold the pie chart-->
     		<div id="chart_div"></div>
-    		
-						
+ 		
 			<table border="1px" bgcolor="#c5c5c5" id="areaCodeDistribution">
 				<tr>
-					<td>City</td>
-					<td>Area code</td>
-					<td>Amount</td>
+					<th>City</th>
+					<th>Area code</th>
+					<th>Amount</th>
 				</tr>
-				
-				<c:forEach var="sumList" items="${applicationScope.operateHib}" >
+				<c:forEach var="sumList" items="${applicationScope.areaList}" >
 					<tr class="tableRow">
 						<td><c:forEach var="codeItem" items="${applicationScope.areaCode.areaCodeJaxb}">
-								<c:if test="${codeItem.code eq sumList.key}" >
+								<c:if test="${codeItem.code eq sumList.mg}" >
 									${codeItem.cityLat}
 								</c:if>
-						</c:forEach></td>
-						<td>${sumList.key}</td>
-						<td>${sumList.value}</td>
+							</c:forEach>
+						</td>
+						<td>${sumList.mg}</td>
+						<td align="right">
+							<fmt:setLocale value="de_DE"/>
+							<fmt:formatNumber type ="number" >${sumList.amountRange}</fmt:formatNumber>
+						</td>
 					</tr>
 				</c:forEach>
-	
 		 		
 			</table>
 	

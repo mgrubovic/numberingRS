@@ -1,13 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ page import="rs.numbering.format.*"%>
-<%@ page import="rs.numbering.model.*"%>
-<%@ page import="rs.numbering.jaxb.*"%>
-<%@ page import="rs.numbering.hibernate.*"%>
-<%@ page import="rs.numbering.source.*, rs.numbering.operation.*"%>
-
-<%@ page import="java.util.*, java.io.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -37,26 +31,27 @@
 			<!--Div that will hold the pie chart-->
     		<div id="chart_div"></div>
 			
-			
 			<table border="1px" bgcolor="#c5c5c5" id="operatorDistribution">
 				<tr>
-					<td>Operator</td>
-					<td>Amount</td>
+					<th>Operator</th>
+					<th>Amount</th>
 				</tr>
 				
-				<c:forEach var="sumList" items="${applicationScope.operatorMap}" >
+				<c:forEach var="sumList" items="${applicationScope.operatorList}" >
 					<tr class="tableRow">
-						<td>${sumList.key}</td>
-						<td>${sumList.value}</td>
+						<td>${sumList.operator}</td>
+						<td align="right">
+							<fmt:setLocale value="de_DE"/>
+							<fmt:formatNumber type ="number" >${sumList.amountRange}</fmt:formatNumber>
+						</td>
 					</tr>
 				</c:forEach>
 		 		
 			</table>
 
-		</div>
-		<!-- end of class="main" -->
-	</div>
-	<!-- end of style="overflow:auto" -->
+		</div>	<!-- end of class="main" -->
+		
+	</div>		<!-- end of style="overflow:auto" -->
 
 	<div class="footer">
 		2017
