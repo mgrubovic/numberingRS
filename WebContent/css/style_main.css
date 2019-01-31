@@ -38,13 +38,32 @@ a:hover{
 .menu {
 	float: left;
 	width: 20%;
-	text-align: center;
+	text-align: left;
 }
 
 .menuitem {
 	background-color: lightblue /*#e5e5e5 */;
 	padding: 8px;
 	margin-top: 7px;
+}
+.menuitem a{
+	display: block;
+}
+
+.menuitem a:hover{
+  background-color: aliceblue;
+}
+
+.dropdown-container {
+  display: none;
+  padding-left: 8px;
+  text-align: left;
+  
+}
+
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
 }
 
 .main {
@@ -90,13 +109,7 @@ a:hover{
 	padding: 10px;
 	margin-top: 10px;
 }
-/*
-table.tbl-official{
-	color:black;
-	background-color: powderblue;
-	border:solid  black 1px;
-}
-*/
+
 table {
 	color: black;
 }
@@ -112,18 +125,7 @@ tr:nth-child(odd) {
 tr:hover {
 	background-color: #c3e6e5;
 }
-/*
-.tbl-official td {
-	color:black;
-	background-color: powderblue;
-	border:solid  black 1px;
-}
-.tbl-official th {
-	color:black;
-	background-color: powderblue;
-	border:solid  black 1px;
-}
-*/
+
 @media only screen and (max-width:620px) {
 	/* For mobile phones: */
 	.menu, .main, .right {
