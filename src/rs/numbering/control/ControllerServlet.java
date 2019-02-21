@@ -7,7 +7,6 @@ import rs.numbering.model.DataManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -46,6 +45,7 @@ public class ControllerServlet extends HttpServlet {
 		String hiddenParam = request.getParameter("select");
 		System.out.println("hiddenParam " + hiddenParam);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class ControllerServlet extends HttpServlet {
 		}else{
 
 			if(hiddenParam.equals("range")){
-				String mgRequest= request.getParameter("mg");
+				String mgRequest= request.getParameter("net");
 				String startRangeRequest = request.getParameter("startRange");
 				String endRangeRequest = request.getParameter("endRange");
 	
@@ -74,10 +74,7 @@ public class ControllerServlet extends HttpServlet {
 				System.out.println("answerLines is: " + answerLines);
 				item.setDescription(answerLines);
 				request.setAttribute("answerRange", item);
-				
-				
-				//List <String> answerLines = searchRanges.getAnswers(mgRequest, startRangeRequest, endRangeRequest);
-				//request.setAttribute("answerRange", answerLines);
+
 				RequestDispatcher view = request.getRequestDispatcher("/ranges/RangeCheckResult.jsp");
 				view.forward(request, response);
 	
@@ -95,48 +92,6 @@ public class ControllerServlet extends HttpServlet {
 				System.out.println("No catch for " + " hiddenParam  "+ hiddenParam);
 			}
 		}
-	}
-	
-	public void uploadFile1(HttpServletRequest request, HttpServletResponse response, List <Range> rangesMain)throws ServletException, IOException{
-		String fileName=null;
-		File uploadedFile=null;
-		String filePath = request.getServletContext().getRealPath("/data");
-		
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(factory);
-
-		try{
-			List<FileItem>   fileItems =  upload.parseRequest(request);
-			
-			System.out.println("fileItems.size is: " + fileItems.size() + " ;0- "+fileItems.get(0) + " ;1- " + fileItems.get(1));
-
-			FileItem fi=  fileItems.get(1);
-
-			fileName = filePath +"\\" + fi.getName() ;
-			uploadedFile = new File(fileName);
-
-			fi.write(uploadedFile);
-
-		}catch(Exception ex){
-			System.out.println(ex);
-		}
-		DataManager dm = new DataManager();
-		String secondFormat = "shortForm";
-		List <Range> uploadRanges = dm.getRanges( secondFormat, fileName);
-		
-		SearchRanges searchRanges = new SearchRanges(rangesMain);
-		for(int i=0; i<uploadRanges.size(); i++){
-			Range item = uploadRanges.get(i);
-			List <String> answerLines = searchRanges.getDescription(item);
-			item.setDescription(answerLines);
-		
-		}
-		request.setAttribute("compareRanges", uploadRanges);
-		
-
-		RequestDispatcher view = request.getRequestDispatcher("/compare/CompareResult.jsp");
-		view.forward(request, response);
-
 	}
 	
 	public void uploadFile(HttpServletRequest request, HttpServletResponse response, List <Range> rangesMain)throws ServletException, IOException{
@@ -187,6 +142,5 @@ public class ControllerServlet extends HttpServlet {
 		view.forward(request, response);
 
 	}
-	
 
 }
