@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -7,22 +7,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="../css/style_main.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<link rel="stylesheet" href=<c:url value="/css/style_main.css"/>  />
 
-<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript" src="../js/pieChart.js"></script>
-
-<title>Numbering</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src=<c:url value="/js/jquery-1.11.3.min.js"/> ></script>
+	<script type="text/javascript" src=<c:url value="/js/pieChart.js"/> ></script>
+	
+	
+	<title>Numbering</title>
 </head>
 <body>
 	<div class="header">
 		<h1>Telephone numbers in Serbia</h1>
 	</div>
 	<div style="overflow: auto">
-		<jsp:include page="/moduls/Menu.jsp"></jsp:include>
+	
+		<div class="menu">
+			<jsp:include page="/moduls/Menu.jsp"></jsp:include>
+		</div>
 
 		<div class="main">
 			<a href="OperatorDistribution.jsp">Distribution by operators</a>
