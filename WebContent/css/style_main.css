@@ -41,6 +41,12 @@ a:hover{
 	text-align: left;
 }
 
+.download {
+	background-color: #e5e5e5;
+	text-align: left;
+	padding: 8px;
+	margin-top: 7px;
+}
 .menuitem {
 	background-color: lightblue /*#e5e5e5 */;
 	padding: 8px;
