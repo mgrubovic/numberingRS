@@ -1,5 +1,8 @@
 package rs.numbering.model;
 
+import java.util.List;
+
+import rs.numbering.format.Range;
 import rs.numbering.format.ReadRange;
 import rs.numbering.format.ReadRangeDB;
 import rs.numbering.format.ReadRangeFileCsvGeo;
@@ -58,6 +61,12 @@ public class ReadRangeFactory {
 			System.out.println("Source is " + "shortForm");
 			setSourceReader(new FileRangeReader());
 		}
+	}
+	
+	public List <Range> takeData(String place){
+		System.out.println("sourceReader is " + sourceReader + ", formatReader is " + getFormatReader());
+
+		return sourceReader.takeData(place, getFormatReader());
 	}
 
 	public ReadRange getFormatReader() {

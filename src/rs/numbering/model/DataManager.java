@@ -1,69 +1,50 @@
 package rs.numbering.model;
 
-import java.io.File;
 import java.util.List;
 
 import rs.numbering.format.*;
-import rs.numbering.source.SourceReader;
 /**
- * After moving getRanges() method into DataModelServlet this class is useless and it could be deleted in web project
- * DataMager is the more generic class for making model data ready for other application e.g. for Swing
- * 
- * Depending on parameters xxxPlace and xxxFromat class makes rangesMain
- * @author milosav.grubovic
- *
+ *Purpose of the DataManager class is to prepare main data for the application and for the table.
+ * It's looking for row data in two places first and second(back-up).
  */
 public class DataManager {
-	//these attributes are set by main application it chooses source of data 
+	//these attributes are set by main application (Initialization Servlet) it is the location of data 
 	private String firstPlace;
 	private String secondPlace;
 	
-	//these attributes are set by main application it chooses format of the Range
+	//these attributes are set by main application (Initialization Servlet), 
+	//it describes format of the row data to translate into a Range object.
 	private String firstFormat;
 	private String secondFormat;
 
 
-	public String urlDescription="";
-	public List <Range> rangesMain;
-
+	private String urlDescription="";
 	
 	public List <Range> getRanges(String format, String place){
-
 		ReadRangeFactory factoryReader =  new ReadRangeFactory(format);
-		ReadRange fromatReader = factoryReader.getFormatReader();
-		SourceReader sourceReader = factoryReader.getSourceReader();
-		List <Range> forRangesMain = sourceReader.takeData(place, fromatReader);
-		return forRangesMain;
+		return factoryReader.takeData(place);
 	}
 	
-	public void getRanges(){
-		ReadRangeFactory factoryReader =  new ReadRangeFactory(firstFormat);
-		ReadRange fromatReader = factoryReader.getFormatReader();
-		SourceReader sourceReader = factoryReader.getSourceReader();
-		rangesMain = sourceReader.takeData(firstPlace, fromatReader);
-		System.out.println("reading web from DataManager" ); 
-		
-
-		if(rangesMain.size()>0){
-			 urlDescription = "Table data are taken from web address: " + firstPlace;
-		}else{ //if range is not initialized from web page we are going to read data from data file on the server 
-			
-			urlDescription = "Table data may not be updated, they are taken from back-up file: " 
-			+ secondPlace.substring(secondPlace.lastIndexOf(File.separator)+1);
-
-			System.out.println("Data file is " + secondPlace);
-
-			factoryReader =  new ReadRangeFactory(secondFormat);
-			fromatReader = factoryReader.getFormatReader();
-
-			sourceReader = factoryReader.getSourceReader();
-			rangesMain = sourceReader.takeData(secondPlace, fromatReader);
-		
-			System.out.println("reading file from DataManager" ); 
-
+	public List <Range> getRanges(){
+		List <Range> rangesMain = getRanges(firstFormat, firstPlace);
+		if(!rangesMain.isEmpty()){
+			setUrlDescription("The table data are taken from web address: " + firstPlace);
+			return rangesMain;
+		}else{
+			rangesMain = getRanges(secondFormat, secondPlace);
+			setUrlDescription("The table data are taken from backup file: " + secondPlace);
+			return rangesMain;
 		}
-
 	}
+
+/*
+ * 			
+			setUrlDescription("Table data may not be updated, they are taken from back-up file: " 
+			+ secondPlace.substring(getSecondPlace().lastIndexOf(File.separator)+1));
+
+			System.out.println("Data file is " + getSecondPlace());
+	
+ */
 
 	public String getFirstPlace() {
 		return firstPlace;
@@ -95,6 +76,14 @@ public class DataManager {
 
 	public void setSecondFormat(String secondFormat) {
 		this.secondFormat = secondFormat;
+	}
+
+	public String getUrlDescription() {
+		return urlDescription;
+	}
+
+	public void setUrlDescription(String urlDescription) {
+		this.urlDescription = urlDescription;
 	}
 
 }
