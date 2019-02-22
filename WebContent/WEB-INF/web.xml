@@ -13,18 +13,11 @@
     <param-name>file-geo-short</param-name>
     <param-value>Geo20180207short.csv</param-value>
   </context-param>
+ 
   <listener>
     <listener-class>rs.numbering.model.DataModelServlet</listener-class>
   </listener>
-  <!-- servlet>
-    <servlet-name>xmlFile</servlet-name>
-    <jsp-file>/data/RangeXmlDownload.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>xmlFile</servlet-name>
-    <url-pattern>/data/NumberingRanges.xml</url-pattern>
-  </servlet-mapping>
-  --> 
+ 
   <servlet>
     <servlet-name>NumberChecking</servlet-name>
     <servlet-class>rs.numbering.control.ControllerServlet</servlet-class>
