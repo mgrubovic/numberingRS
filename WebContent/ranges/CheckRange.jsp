@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href=<c:url value="/css/style_main.css"/>  />
 
 	<script type="text/javascript" src=<c:url value="/js/jquery-1.11.3.min.js"/> ></script>
-	<script type="text/javascript" src=<c:url value="/js/checkInput.js.js"/> ></script>
+	<script type="text/javascript" src=<c:url value="/js/checkInput.js"/> ></script>
 
 	<title>Numbering</title>
 </head>
@@ -33,19 +33,17 @@
 						<jsp:include page="/moduls/OptionsAreaCode.jsp"></jsp:include>
 					</select>
 	
-					start range: <input type="text" name="startRange" /> 
-					end range: <input type="text" name="endRange" />
+					start range: <input type="text" name="startRange" id="startRange" /> 
+					end range: <input type="text" name="endRange" id="endRange" />
 				</p>
-
 				<div id="errInput"></div>
-
-				<p>
-					<input type="submit" name="Search" value="Search" />
-				</p>
+				<br/><input type="submit" name="Search" value="Search" />
 			</form>
-	
-
-			<p>${applicationScope.dataSource}</p>
+			<div id="answerCheckRange">
+			</div>
+			<div class="sourceData">
+				<p>${applicationScope.dataSource}</p>
+			</div>
 			
 			<jsp:include page="/moduls/MainTable.jsp"></jsp:include>
 
