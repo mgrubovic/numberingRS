@@ -18,13 +18,13 @@
 	</div>
 
 	<div style="overflow: auto">
-		
 		<div class="menu">
 			<jsp:include page="/moduls/Menu.jsp"></jsp:include>
 			
 			<div class="download">
 				<h4>Download</h4>
-				<a href=<c:url value="/output"/> >Source data in XML</a>
+				<a href=<c:url value="/output?file=xml"/> >Source data in XML</a>
+				<a href=<c:url value="/output?file=json"/> >Source data in JSON</a>
 			</div>
 		</div>
 
