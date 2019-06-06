@@ -2,105 +2,90 @@
  * 
  */
 
-		$(document).ready(function(){
+$(document).ready(function(){
 
-			$("form").on("submit", function(){
-				$("#errInput").html("");
+	$("form").on("submit", function(){
+		$("#errInput").html("");// to erase previous error messages if there are some of them
+		$("#answerCheckRange").html(""); // also erase previous valid results
 
-				var startRange = $(":input[name=startRange]").val();
-				var endRange = $(":input[name=endRange]").val();
+		var startRange = $("#startRange").val(); //$(":input[name=startRange]").val();
+		var endRange = $("#endRange").val(); //$(":input[name=endRange]").val();
 
-				var startResult = isNumber(startRange, "start");
-				var endResult = isNumber(endRange, "end");
-				
-				if( startResult  && endResult ){
-					return true;
-				}else{
-					return false;
-				}
-
-			});
-
-			function isNumber(num, position){
-				var errorString="Range is good";
-				var result = true;
-				if( num.length == 0){
-					errorString = "Please enter a number";
-					result = false;
-				}else if( isNaN(num)){
-					errorString = "You can enter only digits";
-					result = false;
-				}else if( num.length < 5 || num.length >7){
-					errorString = "Length is invalid, it should be 5, 6 or 7 digits";
-					result = false;
-				}
+		var startResult = goodNumber(startRange, "start");
+		var endResult = goodNumber(endRange, "end");
 		
-
-				if(result){
-					$("#errInput").append("");
-					return true;
-				}else{
-					$("#errInput").append("<p>Error input in " + position + " range :"+ num +" - " + errorString  + " </p>" );
-					return false;
-				}
-
-				
+		if( startResult  && endResult ){
+			if(compareStartEnd(startRange, endRange)){
+				var formData = $(this).serialize();
+				getAnswer(formData);
 			}
-			
-
-		});
+		}
+		return false;
 		
-/*				
-		var errorString="End range is good";
+/*		
+		if( parseInt(startRange, 10)  > parseInt(endRange, 10) ){
+			$("#errInput").append("<p>Error start range " + startRange + " must be less than end range "+ 
+									endRange + " </p>" );
+			return false;
+		}
+		if( startResult  && endResult ){
+			var formData = $(this).serialize();
+			getAnswer(formData)
+			return false;
+		}else{
+			return false;
+		}
+*/		
+	});//end of submit
+
+	function getAnswer(formData ){
+/*		var sendRange = {
+				select:"range",
+				net: 11
+				};
+		alert("sendRange" + sendRange.select );
+*/
+		$.post("/numberingRS/check", formData, processData);
+		function processData(data) {
+			var $newText = $(data).find(".main-right table");
+			$("#answerCheckRange").append($newText);
+		}
+	}
+	
+	// if input number is good this function returns true,
+	// otherwise it writes an error message and returns false
+	function goodNumber(num, position){
+		var errorString="Range is good";
 		var result = true;
 		if( num.length == 0){
-			errorString = "Please enter a number in the end range field";
+			errorString = "Please enter a number";
 			result = false;
 		}else if( isNaN(num)){
 			errorString = "You can enter only digits";
 			result = false;
 		}else if( num.length < 5 || num.length >7){
-			errorString = "End range length is invalid, it should be between 5 and 7 digits";
+			errorString = "Length is invalid, it should be 5, 6 or 7 digits";
 			result = false;
 		}
-
-		
-		if(result){
-			$("#errInput").append("");
-			return true;
-		}else{
-			alert(errorString);
-			$("#errInput").append("<p>Error input: " + num +" " + errorString  + " </p>" );
-			return false;
+		if(!result){
+			$("#errInput").append("<p>Error in " + position + " range your input "+ num +" - " + errorString  + " </p>" );
 		}
-*/
-		
-		/*			
-		$("form").on("submit", function(){
-			var num = $(":input[name=startRange]").val();
-			
-			var errorString="Start range is good";
-			var result = true;
-			if( num.length == 0){
-				errorString = "Please enter a number in the start field";
-				result = false;
-			}else if( isNaN(num)){
-				errorString = "You can enter only digits";
-				result = false;
-			}else if( num.length < 5 || num.length >7){
-				errorString = "Start range length is invalid, it should be between 5 and 7 digits";
-				result = false;
-			}
+		return result;
+	}// end goodNumber
 	
-			
-			if(result){
-				$("#errInput").append("");
-				return true;
-			}else{
-				alert(errorString);
-				$("#errInput").append("<p>Error input: " + num +" " + errorString  + " </p>" );
-				return false;
-			}
-
-		});
-*/					
+	function compareStartEnd(startRange, endRange){
+		var result=true;
+		if( parseInt(startRange, 10)  > parseInt(endRange, 10) ){
+			$("#errInput").append("<p>Error start range " + startRange + " must be less than end range "+ 
+									endRange + " </p>" );
+			result = false;
+		}
+		if(startRange.length != endRange.length){
+			$("#errInput").append("<p>Error start range " + startRange + " and end range "+ 
+					endRange + " must be the same length</p>" );
+			result = false;
+		}
+		return result;
+	}// end compareStartEnd
+	
+}); // end ready
