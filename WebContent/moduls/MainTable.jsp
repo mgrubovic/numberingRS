@@ -20,7 +20,7 @@
 					<jsp:include page="/moduls/OptionsAreaCode.jsp"></jsp:include>
 
 			</select></td>
-			<td><input type="text" name="selectStartRange" maxLength="3" size="3" />
+			<td><input type="text" name="selectStartRange" id ="selectStartRange" maxLength="3" size="3" />
 			</td>
 			<td></td>
 			<td>
