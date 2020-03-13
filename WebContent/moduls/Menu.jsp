@@ -17,7 +17,7 @@
 		<a href=<c:url value="/ranges/CheckRange.jsp"/> >Find ranges</a>
 	</div>
 	<div class="menuitem">
-		<a href=<c:url value="/compare/Compare.jsp"/> >Compare</a>
+		<a href=<c:url value="/preview/tablePreview.jsp"/> >Preview</a>
 	</div>
 	<div class="menuitem">
 		<a href="#" class="dropdown">Summary
@@ -26,7 +26,11 @@
 		<div class="dropdown-container">
 			<a href=<c:url value="/summary/AreaCodeDistribution.jsp"/> >by Area Code</a>
 			<a href=<c:url value="/summary/OperatorDistribution.jsp"/> >by Operator</a>
+			<a href=<c:url value="/summary/FirstDigitDistribution.jsp"/> >by First Digit</a>
 		</div>
+	</div>
+		<div class="menuitem">
+		<a href=<c:url value="/compare/Compare.jsp"/> >Compare</a>
 	</div>
 	<div class="menuitem">
 		<a href=<c:url value="/configuration/mainConfig.jsp"/> >Configuration</a>
