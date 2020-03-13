@@ -14,6 +14,8 @@
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript" src=<c:url value="/js/jquery-1.11.3.min.js"/> ></script>
 	<script type="text/javascript" src=<c:url value="/js/pieChart.js"/> ></script>
+	<script type="text/javascript" src=<c:url value="/js/percent.js"/> ></script>
+	
 	
 	
 	<title>Numbering</title>
@@ -29,17 +31,21 @@
 		</div>
 
 		<div class="main">
+		<fmt:setLocale value="de_DE"/>
 			<a href="OperatorDistribution.jsp">Distribution by operators</a>
 			<h3>Distribution by area codes</h3>
 
 			<!--Div that will hold the pie chart-->
     		<div id="chart_div"></div>
+    		
+    		<p>Total amount of assigned numbers <span id="totalAmount"><fmt:formatNumber type ="number">${applicationScope.total}</fmt:formatNumber></span><p>
  		
-			<table border="1px" bgcolor="#c5c5c5" id="areaCodeDistribution">
+			<table id="areaCodeDistribution">
 				<tr>
 					<th>City</th>
 					<th>Area code</th>
 					<th>Amount</th>
+					<th>Percent (%)</th>
 				</tr>
 				<c:forEach var="sumList" items="${applicationScope.areaList}" >
 					<tr class="tableRow">
@@ -50,9 +56,10 @@
 							</c:forEach>
 						</td>
 						<td>${sumList.mg}</td>
-						<td align="right">
-							<fmt:setLocale value="de_DE"/>
+						<td align="right" class="amountRange">
 							<fmt:formatNumber type ="number" >${sumList.amountRange}</fmt:formatNumber>
+						</td>
+						<td align="right" class="amountPercent">
 						</td>
 					</tr>
 				</c:forEach>

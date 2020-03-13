@@ -31,35 +31,49 @@
 		<div class="main">
 		<fmt:setLocale value="de_DE"/>
 			<a href="AreaCodeDistribution.jsp">Distribution by area codes</a>
+			<a href="OperatorDistribution.jsp">Distribution by operator</a>
 			
-			<h3>Distribution by operators</h3>
+			
+			<h3>Distribution of first digit</h3>
 			
 			<!--Div that will hold the pie chart-->
     		<div id="chart_div"></div>
     		
-    		<p>Total amount of assigned numbers <span id="totalAmount"><fmt:formatNumber type ="number">${applicationScope.total}</fmt:formatNumber></span><p>
-
+			<p>Table presents distribution of first digit among area codes. Subscriber geographic numbers for the first digit
+			may have 2,3,4,5,6,7 or 8.
+			</p>
 			
-			<table id="operatorDistribution">
+			<table id="firstDigitDistribution">
 				<tr>
-					<th>Operator</th>
-					<th>Amount</th>
-					<th>Percent (%)</th>
+					<th></th>
+					<th>All</th>
+					<th>2</th>
+					<th>3</th>
+					<th>4</th>
+					<th>5</th>
+					<th>6</th>
+					<th>7</th>
+					<th>8</th>
 				</tr>
 				
-				<c:forEach var="sumList" items="${applicationScope.operatorList}" >
-					<tr class="tableRow">
-						<td>${sumList.operator}</td>
-						<td align="right" class="amountRange">
-							<fmt:formatNumber type ="number" >${sumList.amountRange}</fmt:formatNumber>
-						</td>
-						<td align="right" class="amountPercent">
-						</td>
+				<c:forEach var="sumList" items="${applicationScope.firstDigit}" >
+					<tr class="tableRow" align="right">
+						
+						<td>${sumList[0]}</td>
+						
+						<td><fmt:formatNumber type ="number" >${sumList[1]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[2]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[3]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[4]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[5]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[6]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[7]}</fmt:formatNumber></td>
+						<td><fmt:formatNumber type ="number" >${sumList[8]}</fmt:formatNumber></td>
 					</tr>
 				</c:forEach>
 		 		
 			</table>
-
+		 
 		</div>	<!-- end of class="main" -->
 		
 	</div>		<!-- end of style="overflow:auto" -->
