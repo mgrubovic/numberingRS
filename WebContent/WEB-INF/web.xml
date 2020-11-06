@@ -3,7 +3,7 @@
   <display-name>numberingRS</display-name>
   <context-param>
     <param-name>url-geo</param-name>
-    <param-value>http://registar.ratel.rs/cyr/reg202?action=table&amp;vrsta=1000&amp;filter=&amp;operator=&amp;net=&amp;broj=&amp;format=csv</param-value>
+    <param-value>https://registar.ratel.rs/cyr/reg202?action=table&amp;vrsta=1000&amp;filter=&amp;operator=&amp;net=&amp;broj=&amp;format=csv</param-value>
   </context-param>
   <context-param>
     <param-name>file-geo</param-name>
