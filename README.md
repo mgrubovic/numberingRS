@@ -23,7 +23,7 @@ JAXB is used for reading and writing XML.
 CONFIGURATION
 
 The first choice is to retrieve the data from RATEL Database of numbering resource use
-Table data are taken from web address: http://registar.ratel.rs/cyr/reg202?action=table&vrsta=1000&filter=&operator=&net=&broj=&format=csv
+Table data are taken from web address: https://registar.ratel.rs/cyr/reg202?action=table&vrsta=1000&filter=&operator=&net=&broj=&format=csv
 
 If an attempt to retrieve data from site fails, application will try the second choice and take data from file in /data folder
 
